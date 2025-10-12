@@ -27,7 +27,7 @@ export async function POST(request: Request) {
                 
                 // resposta pós salvamento
                 return NextResponse.json(newFocusSession)
-                
+
         } catch (error) {
                 console.error("Erro ao criar sessão de foco:", error); // Mostra o erro detalhado no terminal (para nós)
                 
@@ -42,7 +42,8 @@ export async function POST(request: Request) {
 
 export async function GET() {
         try {
-                const allFocusSession = prisma.focusSession.findMany()
+                const allFocusSession = await prisma.focusSession.findMany()
+                //console.log("Dados retornados pelo Prisma:", allFocusSession)
                 return NextResponse.json(allFocusSession)
         
         } catch (error) {
