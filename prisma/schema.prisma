@@ -1,0 +1,22 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+// Meu modelo para a tabela de sessões de foco
+model FocusSession {
+  id          Int      @id @default(autoincrement()) // Identificador único e automático
+  description String   // A atividade em que você focou
+  startTime   DateTime // Quando a sessão começou
+  endTime     DateTime // Quando a sessão terminou
+  duration    Int      // Duração em segundos, que vamos salvar
+  createdAt   DateTime @default(now()) // Data em que o registro foi criado
+}
