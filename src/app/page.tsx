@@ -1,12 +1,22 @@
 'use client'
 import { useEffect, useState } from "react";
 
+type FocusSession = {
+  id: number;
+  description: string;
+  duration: number;
+  startTime: string | Date;
+  endTime: string | Date;
+  createdAt: string | Date;
+}
+
 export default function Home() {
 
   const [status, setStatus] = useState('stopped')
   const [seconds, setSeconds] = useState(0)
   const [description, setDescription] = useState('')
-  const [sessions, setSessions] = useState([])
+  const [sessions, setSessions] = useState< FocusSession[] >([])
+  const [start, setStart] = useState< Date | null >(null)
 
   // Efeito que controla o cronômetro
   useEffect(() => {
@@ -35,14 +45,20 @@ export default function Home() {
       },
       body: JSON.stringify({
         description,
-        startTime: new Date(),
+        startTime: start,
         endTime: new Date(),
         duration: seconds
       })
     })
 
-    setStatus('stopped')
-    setSeconds(0)
+    if (response.ok) { //Verifica se a REQUISIÇÃO foi bem sucedida
+      setStatus('stopped')
+      setSeconds(0)
+      
+    } else {
+      console.error("Falha ao salvar a sessão.")
+    }
+
   }
 
   //Função para descartar uma sessão
@@ -60,9 +76,18 @@ export default function Home() {
   }
 
   const fetchSessions = async () => {
-    const response = await fetch('/api/foco')
-    const data = await response.json() // Converte a resposta para JSON
-    setSessions(data)
+    try {
+      const response = await fetch('/api/foco')
+      const data = await response.json() // Converte a resposta para JSON
+      setSessions(data)
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("Falha ao carregar sessões: ", error.message)
+      } else {
+        console.error("Erro inesperado", error)
+      }
+    }
+
   }
 
 
@@ -84,6 +109,7 @@ export default function Home() {
       <button onClick={() => {
         if (status == 'stopped') {
           setStatus('running')
+          setStart(new Date())
         } else if (status == 'running') {
           setStatus('paused')
         } else if (status == 'paused') {
