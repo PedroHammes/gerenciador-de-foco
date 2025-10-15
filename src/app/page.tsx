@@ -24,11 +24,44 @@ export default function Home() {
 
   }, [status]) // Dependência: o efeito roda quando isRunning muda
 
+  //Função para salvar uma sessão no BD
+  const handleSave = async () => {
+    const response = await fetch('api/foco', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        description: 'teste',
+        startTime: new Date(),
+        endTime: new Date(),
+        duration: seconds
+      })
+    })
+
+    setStatus('stopped')
+    setSeconds(0)
+  }
+
+  //Função para descartar uma sessão
+  const handleCancel = () => {
+    setStatus('stopped')
+    setSeconds(0)
+  }
+
+  const formatTimer = (secs: number) => {
+    const hh = String(Math.floor(secs/3600)).padStart(2, '0')
+    const mm = String((Math.floor(secs/60))%60).padStart(2, '0')
+    const ss = String(secs%60).padStart(2, '0')
+
+    return `${hh}:${mm}:${ss}`
+  }
+
 
   return (
     <>
       <h1>
-        {seconds}
+        {formatTimer(seconds)}
       </h1>
 
       <button onClick={() => {
@@ -43,9 +76,19 @@ export default function Home() {
         {status == 'stopped' ? 'Start' : status == 'running' ? 'Pause' : 'Play'}
       </button>
 
-      <button>Save</button>
-      
-      <button>Cancel</button>
+      <button id="btn-save"
+        onClick={handleSave}
+        disabled={ status === 'stopped' ? true : false }
+      >
+        Save
+      </button>
+
+      <button  id="btn-cancel"
+        onClick={handleCancel}
+        disabled={ status === 'stopped' ? true : false }
+      >
+        Cancel
+      </button>
 
     </>
   );
