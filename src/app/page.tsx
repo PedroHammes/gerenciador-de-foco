@@ -6,6 +6,7 @@ export default function Home() {
   const [status, setStatus] = useState('stopped')
   const [seconds, setSeconds] = useState(0)
   const [description, setDescription] = useState('')
+  const [sessions, setSessions] = useState([])
 
   // Efeito que controla o cronômetro
   useEffect(() => {
@@ -58,6 +59,12 @@ export default function Home() {
     return `${hh}:${mm}:${ss}`
   }
 
+  const fetchSessions = async () => {
+    const response = await fetch('/api/foco')
+    const data = await response.json() // Converte a resposta para JSON
+    setSessions(data)
+  }
+
 
   return (
     <>
@@ -99,6 +106,21 @@ export default function Home() {
       >
         Cancel
       </button>
+
+      <button onClick={fetchSessions}>
+        Load history
+      </button>
+
+      <ul>
+        {
+          sessions.map(session => (
+            <li key={session.id}>
+              <p>{session.description}</p>
+              <p>{session.duration}</p>
+            </li>
+          ))
+        }
+      </ul>
 
     </>
   );
