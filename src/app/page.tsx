@@ -3,14 +3,14 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
 
-  const [isRunning, setIsRunning] = useState(false)
+  const [status, setStatus] = useState('stopped')
   const [seconds, setSeconds] = useState(0)
 
   // Efeito que controla o cronômetro
   useEffect(() => {
     let intervalId: number | NodeJS.Timeout;
 
-    if (isRunning) {
+    if (status == 'running') {
       //Começa a contar cada segundo
       intervalId = setInterval(() => {
         setSeconds(prevSeconds => prevSeconds + 1)
@@ -22,7 +22,7 @@ export default function Home() {
       clearInterval(intervalId)
     }
 
-  }, [isRunning]) // Dependência: o efeito roda quando isRunning muda
+  }, [status]) // Dependência: o efeito roda quando isRunning muda
 
 
   return (
@@ -30,9 +30,23 @@ export default function Home() {
       <h1>
         {seconds}
       </h1>
-      <button onClick={() => setIsRunning(!isRunning)}>
-        {isRunning ? "Pause" : "Start"}
+
+      <button onClick={() => {
+        if (status == 'stopped') {
+          setStatus('running')
+        } else if (status == 'running') {
+          setStatus('paused')
+        } else if (status == 'paused') {
+          setStatus('running')
+        }
+      }}>
+        {status == 'stopped' ? 'Start' : status == 'running' ? 'Pause' : 'Play'}
       </button>
+
+      <button>Save</button>
+      
+      <button>Cancel</button>
+
     </>
   );
 }
