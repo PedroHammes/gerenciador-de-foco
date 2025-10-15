@@ -5,6 +5,7 @@ export default function Home() {
 
   const [status, setStatus] = useState('stopped')
   const [seconds, setSeconds] = useState(0)
+  const [description, setDescription] = useState('')
 
   // Efeito que controla o cronômetro
   useEffect(() => {
@@ -32,7 +33,7 @@ export default function Home() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        description: 'teste',
+        description,
         startTime: new Date(),
         endTime: new Date(),
         duration: seconds
@@ -63,6 +64,15 @@ export default function Home() {
       <h1>
         {formatTimer(seconds)}
       </h1>
+
+      <input 
+      type="text" value={description} 
+      onChange={(event) => { 
+        setDescription(event.target.value)
+      }}
+      >
+
+      </input>
 
       <button onClick={() => {
         if (status == 'stopped') {
