@@ -11,12 +11,25 @@ datasource db {
   url      = "file:./dev.db"
 }
 
+// Modelo paraos usuários
+model User {
+  id            String           @id @default(uuid())
+  email         String           @unique
+  password      String
+  focusSession  FocusSession[]  //Relação (1-M): 1 usuário pode ter muitas sessões
+}
+
 // Meu modelo para a tabela de sessões de foco
 model FocusSession {
-  id          Int      @id @default(autoincrement()) // Identificador único e automático
+  id          String   @id @default(uuid()) // Identificador único automático
   description String   // A atividade em que você focou
   startTime   DateTime // Quando a sessão começou
   endTime     DateTime // Quando a sessão terminou
   duration    Int      // Duração em segundos, que vamos salvar
   createdAt   DateTime @default(now()) // Data em que o registro foi criado
+
+
+  // Informações do usuário a quem pertence a sessão de foco
+  userId      String      // Como se fosse uma 'label' para o id do usuário
+  user        User     @relation(fields: [userId], references: [id]) // Conexão com a tabela User
 }

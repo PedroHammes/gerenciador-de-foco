@@ -34,7 +34,7 @@ export default function Home() {
       clearInterval(intervalId)
     }
 
-  }, [status]) // Dependência: o efeito roda quando isRunning muda
+  }, [status])
 
   //Função para salvar uma sessão no BD
   const handleSave = async () => {
