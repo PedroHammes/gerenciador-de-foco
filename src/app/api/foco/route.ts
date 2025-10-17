@@ -1,27 +1,44 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '../../../generated/prisma'
+import { PrismaClient } from '@/generated/prisma'
+import { auth } from '@/auth';
+import { equal } from 'assert';
+
 
 const prisma = new PrismaClient()
 
 export async function POST(request: Request) {
-        // código para salvar um novo registro no BD
+        // código para salvar um novo registro de foco no BD
         console.log('Recebi uma req POST')
 
+        // 1. Obtendo a sessão do usuário atual
+        const session = await auth()
+
+        // 2. Segurança: se não houver user logado retorna ero
+        if (!session?.user?.id) { // Checando se sessão, usuário e ID existem
+                return NextResponse.json(
+                        {message: "Não autorizado"},
+                        {status: 401}
+                )
+        }
+
         try {
-                // 1. Extrai e converte o corpo da requisição para JSON
-                const body = await request.json()
+                // Pega os dados de dentro da requisição
+                const {startTime, endTime, duration, description} = await request.json()
 
-                // 2. Pega os dados de dentro do body
-                const {startTime, endTime, duration, description} = body
-
-                // O código para salvar no banco de dados
+                // Cria a seção de foco, conectando-a ao usuário
                 console.log({ description, startTime, endTime, duration });
                 const newFocusSession = await prisma.focusSession.create({
                         data: {
                                 startTime, 
                                 endTime,
                                 duration,
-                                description
+                                description,
+                                // Código para conectar o ID do usuário da sessão a esta sessão de foco
+                                user: {
+                                        connect: {
+                                                id: session.user.id
+                                        }
+                                }
                         }
                 })
                 
@@ -41,8 +58,22 @@ export async function POST(request: Request) {
 
 
 export async function GET() {
+
+        const session = await auth()
+
+        if (!session) {
+                return NextResponse.json(
+                        {message: "Não autorizado."},
+                        {status: 401}
+                )
+        }
+
         try {
-                const allFocusSession = await prisma.focusSession.findMany()
+                const allFocusSession = await prisma.focusSession.findMany({
+                        where: {
+                                userId: session.user?.id
+                        }
+                })
                 //console.log("Dados retornados pelo Prisma:", allFocusSession)
                 return NextResponse.json(allFocusSession)
         
@@ -54,4 +85,3 @@ export async function GET() {
                 );              
         }
 }
-
