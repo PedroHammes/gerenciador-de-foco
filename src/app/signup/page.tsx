@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useRouter } from "next/router"
 
-export default function Signup() {
+export default function Signup() {        
 
         const [email, setEmail] = useState('')
         const [password, setPassword] = useState('')
@@ -9,7 +9,7 @@ export default function Signup() {
         const router = useRouter()
 
         // Função para registrar um novo usuário no DB
-        async function Register(event) {
+        async function Register(event: React.FormEvent) {
                 event.preventDefault()    
 
                 const response = await fetch('/api/auth/signup', {
