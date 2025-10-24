@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { signOut } from "next-auth/react";
 
 type FocusSession = {
-  id: number;
+  id: string;
   description: string;
   duration: number;
   startTime: string | Date;
@@ -43,6 +44,12 @@ export default function Home() {
 
   //Função para salvar uma sessão no BD
   const handleSave = async () => {
+    // Verificação de segurança: Só tento salvar se a sessão e ID existirem
+    if (!session?.user?.id) {
+      console.error("Usuário não autenticado, não é possível salvar.")
+      return // Interrompe o salvamento
+    }
+
     const response = await fetch('api/foco', {
       method: 'POST',
       headers: {
@@ -52,7 +59,9 @@ export default function Home() {
         description,
         startTime: start,
         endTime: new Date(),
-        duration: seconds
+        duration: seconds,
+        // adicionar o ID do usuário
+        userId: session.user.id
       })
     })
 
@@ -109,6 +118,7 @@ export default function Home() {
       <h1>
         Olá {session.user?.email}
       </h1>
+      <button onClick={() => signOut()}>Sair</button>
       <h2>
         {formatTimer(seconds)}
       </h2>

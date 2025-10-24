@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@/generated/prisma'
 import { auth } from '@/auth';
-import { equal } from 'assert';
 
 
 const prisma = new PrismaClient()
@@ -11,22 +10,30 @@ export async function POST(request: Request) {
         console.log('Recebi uma req POST')
 
         // 1. Obtendo a sessão do usuário atual
-        const session = await auth()
+        // const session = await auth()
 
         // 2. Segurança: se não houver user logado retorna ero
-        if (!session?.user?.id) { // Checando se sessão, usuário e ID existem
-                return NextResponse.json(
-                        {message: "Não autorizado"},
-                        {status: 401}
-                )
-        }
+        // if (!session?.user?.id) { // Checando se sessão, usuário e ID existem
+        //         return NextResponse.json(
+        //                 {message: "Não autorizado"},
+        //                 {status: 401}
+        //         )
+        // }
 
         try {
                 // Pega os dados de dentro da requisição
-                const {startTime, endTime, duration, description} = await request.json()
+                const {startTime, endTime, duration, description, userId} = await request.json()
+
+                // 1 e 2. Verificação de segurança simples: garantir que o userId foi enviado
+                if (!userId) {
+                        return NextResponse.json(
+                                {message: "userId pe obrigatório"},
+                                {status: 400}
+                        )
+                }
 
                 // Cria a seção de foco, conectando-a ao usuário
-                console.log({ description, startTime, endTime, duration });
+
                 const newFocusSession = await prisma.focusSession.create({
                         data: {
                                 startTime, 
@@ -36,7 +43,7 @@ export async function POST(request: Request) {
                                 // Código para conectar o ID do usuário da sessão a esta sessão de foco
                                 user: {
                                         connect: {
-                                                id: session.user.id
+                                                id: userId
                                         }
                                 }
                         }
@@ -61,7 +68,7 @@ export async function GET() {
 
         const session = await auth()
 
-        if (!session) {
+        if (!session?.user?.id) {
                 return NextResponse.json(
                         {message: "Não autorizado."},
                         {status: 401}
