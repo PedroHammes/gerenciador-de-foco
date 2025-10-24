@@ -1,6 +1,7 @@
-"use cliet"
-import { useState } from "react"
-import { signIn } from "next-auth/react";
+'use client'
+
+import { useState, useEffect } from "react"
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation"
 
 export default function Signin() {
@@ -9,10 +10,21 @@ export default function Signin() {
     const [password, setPassword] = useState('')
     const [loginError, setLoginError] = useState('')
     const router = useRouter()
+    const {data: session, status} = useSession()
+
+    useEffect(() => {
+        // Verifico se o usuário já está autenticado,
+        // Se sim direciono para a página principal (/)
+        if (status === "authenticated") {
+            router.push("/")
+        }
+    }, [status, router]) // Dependêcias: o efeito é executado SE 'status' ou 'router mudarem'
+
 
 
     async function Login(event: React.FormEvent) {
         event.preventDefault()
+        setLoginError('')
 
         // Usar a função signIn do NextAuth para cuidar do login.
         const sucessfullLogin = await signIn("credentials", {
@@ -22,7 +34,7 @@ export default function Signin() {
         })
 
         if (sucessfullLogin.ok) {
-            return router.push('/home')
+            return router.push('/')
         }
 
         return setLoginError('Dados de login incorretos.')
