@@ -1,5 +1,6 @@
+"use client"
 import { useState } from "react"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 
 export default function Signup() {        
 
@@ -22,7 +23,7 @@ export default function Signup() {
                 
                 if (response.ok) {
                         // Direcione para o login se deu certo
-                        router.push('/login')
+                        router.push('/signin')
 
                 } else {
                        // Responda algo se deu errado 

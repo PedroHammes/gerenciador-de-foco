@@ -1,6 +1,7 @@
+"use cliet"
 import { useState } from "react"
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 
 export default function Signin() {
 
@@ -8,6 +9,7 @@ export default function Signin() {
     const [password, setPassword] = useState('')
     const [loginError, setLoginError] = useState('')
     const router = useRouter()
+
 
     async function Login(event: React.FormEvent) {
         event.preventDefault()
@@ -24,7 +26,6 @@ export default function Signin() {
         }
 
         return setLoginError('Dados de login incorretos.')
-
 
     }
 
@@ -49,7 +50,7 @@ export default function Signin() {
                 }}
             />
             <button type="submit">Entrar</button>
-            <p>
+            <p onLoad={() => setLoginError('')}>
                 {loginError}
             </p>
         </form>

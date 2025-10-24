@@ -1,5 +1,7 @@
-'use client'
+"use client"
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 type FocusSession = {
   id: number;
@@ -12,7 +14,9 @@ type FocusSession = {
 
 export default function Home() {
 
-  const [status, setStatus] = useState('stopped')
+  const { data: session, status } = useSession()
+
+  const [stopwatchStatus, setStopwatchStatus] = useState('stopped')
   const [seconds, setSeconds] = useState(0)
   const [description, setDescription] = useState('')
   const [sessions, setSessions] = useState< FocusSession[] >([])
@@ -22,7 +26,7 @@ export default function Home() {
   useEffect(() => {
     let intervalId: number | NodeJS.Timeout;
 
-    if (status == 'running') {
+    if (stopwatchStatus == 'running') {
       //Começa a contar cada segundo
       intervalId = setInterval(() => {
         setSeconds(prevSeconds => prevSeconds + 1)
@@ -34,7 +38,7 @@ export default function Home() {
       clearInterval(intervalId)
     }
 
-  }, [status])
+  }, [stopwatchStatus])
 
   //Função para salvar uma sessão no BD
   const handleSave = async () => {
@@ -52,7 +56,7 @@ export default function Home() {
     })
 
     if (response.ok) { //Verifica se a REQUISIÇÃO foi bem sucedida
-      setStatus('stopped')
+      setStopwatchStatus('stopped')
       setSeconds(0)
       
     } else {
@@ -63,7 +67,7 @@ export default function Home() {
 
   //Função para descartar uma sessão
   const handleCancel = () => {
-    setStatus('stopped')
+    setStopwatchStatus('stopped')
     setSeconds(0)
   }
 
@@ -90,12 +94,23 @@ export default function Home() {
 
   }
 
-
-  return (
+  if (status === "loading") {
+    return (
+      <p>Carregando...</p>
+    )
+  } else if (status === "unauthenticated") {
+    return (
+      <p>Acesso negado. <br /> Faça o login em: <Link href="/signin">Login</Link></p>
+    )
+  } else if (status === "authenticated") {
+      return (
     <>
       <h1>
-        {formatTimer(seconds)}
+        Olá {session.user?.email}
       </h1>
+      <h2>
+        {formatTimer(seconds)}
+      </h2>
 
       <input 
       type="text" value={description} 
@@ -107,28 +122,28 @@ export default function Home() {
       </input>
 
       <button onClick={() => {
-        if (status == 'stopped') {
-          setStatus('running')
+        if (stopwatchStatus == 'stopped') {
+          setStopwatchStatus('running')
           setStart(new Date())
-        } else if (status == 'running') {
-          setStatus('paused')
-        } else if (status == 'paused') {
-          setStatus('running')
+        } else if (stopwatchStatus == 'running') {
+          setStopwatchStatus('paused')
+        } else if (stopwatchStatus == 'paused') {
+          setStopwatchStatus('running')
         }
       }}>
-        {status == 'stopped' ? 'Start' : status == 'running' ? 'Pause' : 'Play'}
+        {stopwatchStatus == 'stopped' ? 'Start' : stopwatchStatus == 'running' ? 'Pause' : 'Play'}
       </button>
 
       <button id="btn-save"
         onClick={handleSave}
-        disabled={ status === 'stopped' ? true : false }
+        disabled={ stopwatchStatus === 'stopped' ? true : false }
       >
         Save
       </button>
 
       <button  id="btn-cancel"
         onClick={handleCancel}
-        disabled={ status === 'stopped' ? true : false }
+        disabled={ stopwatchStatus === 'stopped' ? true : false }
       >
         Cancel
       </button>
@@ -150,4 +165,5 @@ export default function Home() {
 
     </>
   );
+  }
 }
