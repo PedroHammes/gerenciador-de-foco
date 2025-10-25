@@ -114,8 +114,10 @@ export default function Home() {
     )
   } else if (status === "authenticated") {
       return (
-    <>
-      <h1>
+    <section
+    className="min-h-screen flex items-center justify-center"
+    >
+      <h1 >
         Olá {session.user?.email}
       </h1>
       <button onClick={() => signOut()}>Sair</button>
@@ -174,7 +176,7 @@ export default function Home() {
         }
       </ul>
 
-    </>
+    </section>
   );
   }
 }

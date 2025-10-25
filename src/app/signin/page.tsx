@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation"
+import Link from "next/link";
 
 export default function Signin() {
 
@@ -43,29 +44,50 @@ export default function Signin() {
 
 
     return (
-        <form onSubmit={Login}>
-            <input 
-                type="email" 
-                placeholder="Email" 
-                value={email}
-                onChange={(event) =>{
-                    setEmail(event.target.value)
-                }}
-            />
+        <div className="min-h-screen flex items-center justify-center">
+            <form onSubmit={Login}
+            className="flex flex-col gap-6"
+            >
+                <div>
+                    <label htmlFor="email">Email</label>
+                    <br />
+                    <input id="email"
+                    className="border-2 border-zinc-50 rounded-sm"
+                    type="email" 
+                    value={email}
+                    onChange={(event) =>{
+                        setEmail(event.target.value)
+                    }}
+                    />
+                </div>
 
-            <input
-                type="password"
-                placeholder="Senha" 
-                value={password}
-                onChange={(event) =>{
-                    setPassword(event.target.value)
-                }}
-            />
-            <button type="submit">Entrar</button>
-            <p onLoad={() => setLoginError('')}>
-                {loginError}
-            </p>
-        </form>
+
+                <div>
+                    <label htmlFor="password">Senha</label>
+                    <br />
+                    <input id="password"
+                    className="border-2 border-zinc-50 rounded-sm"
+                    type="password"
+                    value={password}
+                    onChange={(event) =>{
+                        setPassword(event.target.value)
+                    }}
+                    />
+                </div>
+
+
+                <button type="submit"
+                className="border-2 border-zinc-50 rounded-sm bg-zinc-50 text-zinc-950"
+                >Entrar</button>
+
+                <p>Não possui uma conta? <br />Faça o <Link href="/signup">Cadastro</Link></p>
+
+                <p onLoad={() => setLoginError('')}>
+                    {loginError}
+                </p>
+            </form>
+        </div>
+
     )
 
 }

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
+import Link from "next/link"
 
 export default function Signup() {        
 
@@ -45,25 +46,45 @@ export default function Signup() {
         }
 
         return (
-                <form onSubmit={Register}>
-                        <input type="email" 
-                        value={email}
-                        onChange={(event) => { 
-                                setEmail(event.target.value)
-                        }}
-                        />
+                <div className="min-h-screen flex items-center justify-center">
+                        <form onSubmit={Register}
+                        className="flex flex-col gap-6"
+                        >
+                                <div>
+                                        <label htmlFor="email">Email</label>
+                                        <br />
+                                        <input type="email" id="email"
+                                        className="border-2 border-zinc-50 rounded-sm"
+                                        value={email}
+                                        onChange={(event) => { 
+                                                setEmail(event.target.value)
+                                        }}
+                                        />
+                                </div>
 
-                        <input type="password"
-                        value={password}
-                        onChange={(event) => { 
-                                setPassword(event.target.value)
-                        }}
-                        />
+                                <div>
+                                        <label htmlFor="password">Senha</label>
+                                        <br />
+                                        <input type="password" id="password"
+                                        className="border-2 border-zinc-50 rounded-sm"
+                                        value={password}
+                                        onChange={(event) => { 
+                                                setPassword(event.target.value)
+                                        }}
+                                        />
+                                </div>
 
-                        <button type="submit">Registrar</button>
-                        <p>
-                                {error}
-                        </p>
-                </form>
+                                <button type="submit"
+                                className="border-2 border-zinc-50 rounded-sm bg-zinc-50 text-zinc-950"
+                                >
+                                        Registrar
+                                </button>
+                                <p>Já possui uma conta? <br />Faça o <Link href="/signin">Login</Link></p>
+                        
+                                <p>
+                                        {error}
+                                </p>
+                        </form>
+                </div>
         )
 }
