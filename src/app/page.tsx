@@ -136,9 +136,22 @@ export default function Home() {
           ">
             Olá {session.user?.email}
           </h1>
-          <button onClick={() => signOut()} className="
-          secondary-button
-          ">Sair</button>
+          <div className="
+          flex flex row gap-2
+          ">
+            <button 
+            className="
+            primary-button
+            ">
+              Perfil
+            </button>
+            <button onClick={() => signOut()} className="
+            secondary-button
+            ">
+              Sair
+            </button>
+          </div>
+
         </nav>
       
         <h2 className="
