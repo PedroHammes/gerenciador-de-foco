@@ -46,7 +46,10 @@ export default function Signup() {
         }
 
         return (
-                <div className="min-h-screen flex items-center justify-center">
+                <div className="
+                min-h-screen flex items-center justify-center
+                bg-zinc-950 text-zinc-50
+                ">
                         <form onSubmit={Register}
                         className="flex flex-col gap-6"
                         >
@@ -54,7 +57,7 @@ export default function Signup() {
                                         <label htmlFor="email">Email</label>
                                         <br />
                                         <input type="email" id="email"
-                                        className="border-2 border-zinc-50 rounded-sm"
+                                        className="form-input-field"
                                         value={email}
                                         onChange={(event) => { 
                                                 setEmail(event.target.value)
@@ -66,7 +69,7 @@ export default function Signup() {
                                         <label htmlFor="password">Senha</label>
                                         <br />
                                         <input type="password" id="password"
-                                        className="border-2 border-zinc-50 rounded-sm"
+                                        className="form-input-field"
                                         value={password}
                                         onChange={(event) => { 
                                                 setPassword(event.target.value)
@@ -75,15 +78,20 @@ export default function Signup() {
                                 </div>
 
                                 <button type="submit"
-                                className="border-2 border-zinc-50 rounded-sm bg-zinc-50 text-zinc-950"
+                                className="primary-button"
                                 >
                                         Registrar
                                 </button>
-                                <p>Já possui uma conta? <br />Faça o <Link href="/signin">Login</Link></p>
+
+                                <p className="text-center">Ou</p>
                         
-                                <p>
-                                        {error}
-                                </p>
+                                <button className="
+                                secondary-button
+                                ">
+                                        <Link href="/signin">Login</Link>
+                                </button>
+
+                                <p>{error}</p>
                         </form>
                 </div>
         )

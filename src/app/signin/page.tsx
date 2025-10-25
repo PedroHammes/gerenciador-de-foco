@@ -44,7 +44,11 @@ export default function Signin() {
 
 
     return (
-        <div className="min-h-screen flex items-center justify-center">
+        <div 
+        className="
+        min-h-screen flex items-center justify-center
+        bg-zinc-950 text-zinc-50
+        ">
             <form onSubmit={Login}
             className="flex flex-col gap-6"
             >
@@ -52,7 +56,7 @@ export default function Signin() {
                     <label htmlFor="email">Email</label>
                     <br />
                     <input id="email"
-                    className="border-2 border-zinc-50 rounded-sm"
+                    className="form-input-field"
                     type="email" 
                     value={email}
                     onChange={(event) =>{
@@ -61,12 +65,11 @@ export default function Signin() {
                     />
                 </div>
 
-
                 <div>
                     <label htmlFor="password">Senha</label>
                     <br />
                     <input id="password"
-                    className="border-2 border-zinc-50 rounded-sm"
+                    className="form-input-field"
                     type="password"
                     value={password}
                     onChange={(event) =>{
@@ -77,10 +80,19 @@ export default function Signin() {
 
 
                 <button type="submit"
-                className="border-2 border-zinc-50 rounded-sm bg-zinc-50 text-zinc-950"
-                >Entrar</button>
+                className="primary-button"
+                >Entrar
+                </button>
 
-                <p>Não possui uma conta? <br />Faça o <Link href="/signup">Cadastro</Link></p>
+                <p className="
+                text-center
+                ">Ou</p>
+
+                <button className="
+                secondary-button
+                ">
+                    <Link href="/signup">Cadastro</Link>
+                </button>
 
                 <p onLoad={() => setLoginError('')}>
                     {loginError}
