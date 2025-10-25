@@ -4,15 +4,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
-
-type FocusSession = {
-  id: string;
-  description: string;
-  duration: number;
-  startTime: string | Date;
-  endTime: string | Date;
-  createdAt: string | Date;
-}
+import { useRouter } from "next/navigation"
 
 export default function Home() {
 
@@ -21,8 +13,8 @@ export default function Home() {
   const [stopwatchStatus, setStopwatchStatus] = useState('stopped')
   const [seconds, setSeconds] = useState(0)
   const [description, setDescription] = useState('')
-  const [sessions, setSessions] = useState< FocusSession[] >([])
   const [start, setStart] = useState< Date | null >(null)
+    const router = useRouter()
 
   // Efeito que controla o cronômetro
   useEffect(() => {
@@ -89,20 +81,7 @@ export default function Home() {
     return `${hh}:${mm}:${ss}`
   }
 
-  const fetchSessions = async () => {
-    try {
-      const response = await fetch('/api/foco')
-      const data = await response.json() // Converte a resposta para JSON
-      setSessions(data)
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error("Falha ao carregar sessões: ", error.message)
-      } else {
-        console.error("Erro inesperado", error)
-      }
-    }
 
-  }
 
   if (status === "loading") {
     return (
@@ -136,10 +115,12 @@ export default function Home() {
           ">
             Olá {session.user?.email}
           </h1>
+
           <div className="
           flex flex row gap-2
           ">
-            <button 
+            <button
+            onClick={() => router.push("/profile")}
             className="
             primary-button
             ">
@@ -211,21 +192,7 @@ export default function Home() {
             Cancel
           </button>
 
-          <button onClick={fetchSessions}>
-            Load history
-          </button>
         </div>
-
-      <ul>
-        {
-          sessions.map(session => (
-            <li key={session.id}>
-              <p>{session.description}</p>
-              <p>{session.duration}</p>
-            </li>
-          ))
-        }
-      </ul>
 
       </section>
 
