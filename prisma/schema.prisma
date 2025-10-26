@@ -14,8 +14,10 @@ datasource db {
 // Modelo paraos usuários
 model User {
   id            String           @id @default(uuid())
+  name          String
   email         String           @unique
   password      String
+  createdAt     DateTime         @default(now())
   focusSession  FocusSession[]  //Relação (1-M): 1 usuário pode ter muitas sessões
 }
 
