@@ -27,7 +27,8 @@ body {
 
 h1 {
   @apply
-  text-5xl
+  text-8xl
+  font-bold  
 }
 
 h2 {

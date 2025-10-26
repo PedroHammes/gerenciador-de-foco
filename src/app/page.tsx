@@ -95,21 +95,19 @@ export default function Home() {
       return (
     <section
     className="
-    h-dvh flex items-center justify-center
+    h-dvh flex flex-col items-center justify-between
     bg-zinc-900 text-zinc-50
+    p-8
     "
     >
-      <section className="
-        w-full h-dvh
-        flex flex-col items-center justify-around
-        p-8
-      ">
+
         <nav
         className="
-        flex flex-row gap-10
+        w-full
+        flex flex-row justify-between items-center
         ">
           <h2>
-            Olá {session.user?.name}
+            Olá, {session.user?.name}!
           </h2>
 
           <div className="
@@ -131,21 +129,23 @@ export default function Home() {
 
         </nav>
       
-        <div className="
+        <main className="
         flex flex-col items-center justify-center
         gap-8
         ">
           <div className="
 
           ">
-            <h1>
+            <h1 className="
+            font-mono
+            ">
               {formatTimer(seconds)}
             </h1>
           </div>
 
           <input 
             type="text"
-            placeholder="Tarefa"
+            placeholder="No que você está trabalhando?"
             value={description} 
             onChange={(event) => { 
               setDescription(event.target.value)
@@ -195,10 +195,15 @@ export default function Home() {
 
           </div>
 
-        </div>
+        </main>
+
+        <footer className="
+        w-full text-center text-sm text-zinc-500
+        ">
+          Gerenciador de Foco
+        </footer>
         
 
-      </section>
 
     </section>
   );
