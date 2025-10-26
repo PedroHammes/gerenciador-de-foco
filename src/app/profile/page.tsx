@@ -45,24 +45,60 @@ export default function Profile() {
         )
     } else if (status === "authenticated") {
         return (
-            <>
-                <h1>Olá {session.user?.name}</h1>
+            <section className="
+            w-full h-dvh
+            flex flex-col items-center justify-between
+            border-2
+            p-8
+            bg-zinc-950 text-zinc-50
+            ">
+                <nav className="
+                flex flex-row justify-between w-full
+                ">
+                    <h1>Olá {session.user?.name}</h1>
+                    <div>
+                        <button className="
+                        primary-button
+                        ">
+                            Início
+                        </button>
+                        <button className="
+                        secondary-button
+                        ">
+                            Sair
+                        </button>
+                    </div>
+                </nav>
 
-                <button onClick={fetchSessions}>
-                    Load history
-                </button>
+                <div>
+                    <p>Editar perfil</p>
+                </div>
+
+                <div>
+                    <p>Histórico</p>
+                    <button
+                    onClick={fetchSessions}
+                    className="
+                    primary-button
+                    ">
+                        Load history
+                    </button>
                 
-                <ul>
-                    {
-                    sessions.map(session => (
-                        <li key={session.id}>
-                        <p>{session.description}</p>
-                        <p>{session.duration}</p>
-                        </li>
-                    ))
-                    }
-                </ul>
-            </>
+                    <ul>
+                        {
+                        sessions.map(session => (
+                            <li key={session.id}>
+                                <p>{session.description}</p>
+                                <p>{session.duration}</p>
+                            </li>
+                        ))
+                        }
+                    </ul>
+                </div>
+                
+
+
+            </section>
         )
     }
 }

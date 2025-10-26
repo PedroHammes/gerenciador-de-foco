@@ -25,6 +25,11 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+h1 {
+  @apply
+  text-2xl
+}
+
 .primary-button {
   @apply 
   max-w-73 min-w-24 
