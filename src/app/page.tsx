@@ -96,25 +96,21 @@ export default function Home() {
     <section
     className="
     h-dvh flex items-center justify-center
-    bg-zinc-950 text-zinc-50
-    p-4 sm:px-8 md:px-16 lg:px-72
+    bg-zinc-900 text-zinc-50
     "
     >
       <section className="
         w-full h-dvh
-        flex flex-col items-center justify-between
-        border-2
+        flex flex-col items-center justify-around
         p-8
       ">
         <nav
         className="
-        flex flex-row justify-between w-full
+        flex flex-row gap-10
         ">
-          <h1 
-          className="text-2xl
-          ">
+          <h2>
             Olá {session.user?.name}
-          </h1>
+          </h2>
 
           <div className="
           flex flex row gap-2
@@ -135,13 +131,18 @@ export default function Home() {
 
         </nav>
       
-        <h2 className="
-        text-6xl
+        <div className="
+        flex flex-col items-center justify-center
+        gap-8
         ">
-          {formatTimer(seconds)}
-        </h2>
+          <div className="
 
-        <div>
+          ">
+            <h1>
+              {formatTimer(seconds)}
+            </h1>
+          </div>
+
           <input 
             type="text"
             placeholder="Tarefa"
@@ -151,48 +152,51 @@ export default function Home() {
             }}
             className="
             form-input-field
+            w-full
             ">
           </input>
+
+          <div className="
+          flex flex-row gap-2
+          ">
+            <button onClick={() => {
+              if (stopwatchStatus == 'stopped') {
+                setStopwatchStatus('running')
+                setStart(new Date())
+              } else if (stopwatchStatus == 'running') {
+                setStopwatchStatus('paused')
+              } else if (stopwatchStatus == 'paused') {
+                setStopwatchStatus('running')
+              }
+            }}
+            className="
+            primary-button
+            ">
+              {stopwatchStatus == 'stopped' ? 'Start' : stopwatchStatus == 'running' ? 'Pause' : 'Play'}
+            </button>
+
+            <button id="btn-save"
+            onClick={handleSave}
+            disabled={ stopwatchStatus === 'stopped' ? true : false }
+            className="
+            secondary-button
+            ">
+              Save
+            </button>
+
+            <button  id="btn-cancel"
+            onClick={handleCancel}
+            disabled={ stopwatchStatus === 'stopped' ? true : false }
+            className="
+            secondary-button
+            ">
+              Cancel
+            </button>
+
+          </div>
+
         </div>
-
-        <div className="
-        flex flex-col gap-2
-        ">
-          <button onClick={() => {
-            if (stopwatchStatus == 'stopped') {
-              setStopwatchStatus('running')
-              setStart(new Date())
-            } else if (stopwatchStatus == 'running') {
-              setStopwatchStatus('paused')
-            } else if (stopwatchStatus == 'paused') {
-              setStopwatchStatus('running')
-            }
-          }}
-          className="
-          primary-button
-          ">
-            {stopwatchStatus == 'stopped' ? 'Start' : stopwatchStatus == 'running' ? 'Pause' : 'Play'}
-          </button>
-
-          <button id="btn-save"
-          onClick={handleSave}
-          disabled={ stopwatchStatus === 'stopped' ? true : false }
-          className="
-          secondary-button
-          ">
-            Save
-          </button>
-
-          <button  id="btn-cancel"
-          onClick={handleCancel}
-          disabled={ stopwatchStatus === 'stopped' ? true : false }
-          className="
-          secondary-button
-          ">
-            Cancel
-          </button>
-
-        </div>
+        
 
       </section>
 

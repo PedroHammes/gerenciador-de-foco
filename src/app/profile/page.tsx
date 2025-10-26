@@ -1,8 +1,9 @@
 'use client'
 
-import { useSession } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
 import { useState } from "react";
 import Link from "next/link"
+import { useRouter } from "next/navigation";
 
 type FocusSession = {
   id: string;
@@ -17,6 +18,7 @@ export default function Profile() {
 
     const { data: session, status } = useSession()
     const [sessions, setSessions] = useState< FocusSession[] >([])
+    const router = useRouter()
 
     const fetchSessions = async () => {
         try {
@@ -46,28 +48,37 @@ export default function Profile() {
     } else if (status === "authenticated") {
         return (
             <section className="
-            w-full h-dvh
-            flex flex-col items-center justify-between
-            border-2
-            p-8
-            bg-zinc-950 text-zinc-50
+            h-dvh flex flex-col items-center justify-center
+            bg-zinc-900 text-zinc-50
             ">
-                <nav className="
-                flex flex-row justify-between w-full
+
+
+                <nav
+                className="
+                flex flex-row gap-10
                 ">
-                    <h1>Olá {session.user?.name}</h1>
-                    <div>
-                        <button className="
+                    <h2>
+                        Olá {session.user?.name}
+                    </h2>
+
+                    <div className="
+                    flex flex row gap-2
+                    ">
+                        <button
+                        onClick={() => router.push("/")}
+                        className="
                         primary-button
                         ">
                             Início
                         </button>
-                        <button className="
+                        
+                        <button onClick={() => signOut()} className="
                         secondary-button
                         ">
                             Sair
                         </button>
                     </div>
+
                 </nav>
 
                 <div>
@@ -84,16 +95,19 @@ export default function Profile() {
                         Load history
                     </button>
                 
-                    <ul>
+                    <div>
                         {
                         sessions.map(session => (
-                            <li key={session.id}>
-                                <p>{session.description}</p>
-                                <p>{session.duration}</p>
-                            </li>
+                            <div key={session.id} className="
+                            card-timer
+                            ">
+                                <h3>{session.description}</h3>
+                                <p>Foco: {session.duration}</p>
+                                <button className="primary-button">Excluir</button>
+                            </div>
                         ))
                         }
-                    </ul>
+                    </div>
                 </div>
                 
 
