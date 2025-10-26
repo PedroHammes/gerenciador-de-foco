@@ -106,14 +106,14 @@ export default function Home() {
         border-2
         p-8
       ">
-        <nav 
+        <nav
         className="
         flex flex-row justify-between w-full
         ">
           <h1 
           className="text-2xl
           ">
-            Olá {session.user?.email}
+            Olá {session.user?.name}
           </h1>
 
           <div className="

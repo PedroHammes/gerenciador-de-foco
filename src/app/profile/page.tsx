@@ -46,7 +46,7 @@ export default function Profile() {
     } else if (status === "authenticated") {
         return (
             <>
-                <h1>Olá {session.user?.email}</h1>
+                <h1>Olá {session.user?.name}</h1>
 
                 <button onClick={fetchSessions}>
                     Load history
