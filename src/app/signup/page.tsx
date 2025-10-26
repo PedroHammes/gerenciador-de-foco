@@ -7,6 +7,7 @@ import Link from "next/link"
 
 export default function Signup() {        
 
+        const [name, setName] = useState('')
         const [email, setEmail] = useState('')
         const [password, setPassword] = useState('')
         const [error, setError] = useState('')
@@ -31,7 +32,7 @@ export default function Signup() {
                         headers: {
                                 'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({email, password}) 
+                        body: JSON.stringify({name, email, password}) 
                 })
                 
                 if (response.ok) {
@@ -53,6 +54,17 @@ export default function Signup() {
                         <form onSubmit={Register}
                         className="flex flex-col gap-6"
                         >
+                                <div>
+                                        <label htmlFor="name">Name</label>
+                                        <br />
+                                        <input type="text" id="name"
+                                        className="form-input-field"
+                                        value={name}
+                                        onChange={(event) => { 
+                                                setName(event.target.value)
+                                        }}
+                                        />
+                                </div>
                                 <div>
                                         <label htmlFor="email">Email</label>
                                         <br />

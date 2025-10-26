@@ -8,7 +8,8 @@ export async function POST(request: Request) {
         // Lógica para criar um novo usuário
         try {
                 // Captura os dados da requisição
-                const {email, password} = await request.json()
+                const {name, email, password} = await request.json()
+                console.log("Dados recebidos no signup:", { name, email, password });
 
                 // Criar uma constante para salvar a senha criptografada usando a lib bcrypt
                 const hashedPassword = bcrypt.hashSync(password, 10)
@@ -16,6 +17,7 @@ export async function POST(request: Request) {
                 // Criar uma constate para guardar o resultado da criação do usuário no banco
                 const newUser = await prisma.user.create({
                         data: {
+                                name: name,
                                 email: email,
                                 password: hashedPassword
                         }
@@ -24,6 +26,7 @@ export async function POST(request: Request) {
                 return NextResponse.json({message: `Usuário ${newUser.email} criado com sucesso!`})
 
         } catch (error) {
+                console.error("Erro detalhado ao criar usuário:", error);
 
                 if (error instanceof Prisma.PrismaClientKnownRequestError) {
                         if (error.code === 'P2002') {
