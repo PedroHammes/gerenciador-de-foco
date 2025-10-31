@@ -1,110 +1,135 @@
-'use client'
+"use client";    
 
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { useSession } from "next-auth/react"
-import Link from "next/link"
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import {
+  FieldDescription,
+  FieldGroup,
+  FieldLegend,
+  FieldSet,
+  Field,
+  FieldContent,
+  FieldLabel,
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
-export default function Signup() {        
+export default function Signup() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const router = useRouter();
+  const { data: session, status } = useSession();
 
-        const [name, setName] = useState('')
-        const [email, setEmail] = useState('')
-        const [password, setPassword] = useState('')
-        const [error, setError] = useState('')
-        const router = useRouter()
-        const {data: session, status} = useSession()
-        
-        useEffect(() => {
-                // Verifico se o usuário já está autenticado,
-                // Se sim direciono para a página principal (/)
-                if (status === "authenticated") {
-                        router.push("/")
-                }
-        }, [status, router]) // Dependêcias: o efeito é executado SE 'status' ou 'router mudarem'
+  useEffect(() => {
+    // Verifico se o usuário já está autenticado,
+    // Se sim direciono para a página principal (/)
+    if (status === "authenticated") {
+      router.push("/");
+    }
+  }, [status, router]); // Dependêcias: o efeito é executado SE 'status' ou 'router mudarem'
 
+  // Função para registrar um novo usuário no DB
+  async function Register(event: React.FormEvent) {
+    event.preventDefault();
 
-        // Função para registrar um novo usuário no DB
-        async function Register(event: React.FormEvent) {
-                event.preventDefault()    
+    const response = await fetch("/api/auth/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email, password }),
+    });
 
-                const response = await fetch('/api/auth/signup', {
-                        method: "POST",
-                        headers: {
-                                'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({name, email, password}) 
-                })
-                
-                if (response.ok) {
-                        // Direcione para o login se deu certo
-                        router.push('/signin')
+    if (response.ok) {
+      // Direcione para o login se deu certo
+      router.push("/signin");
+    } else {
+      // Responda algo se deu errado
+      const errorData = await response.json();
+      setError(errorData.message);
+    }
+  }
+  
 
-                } else {
-                       // Responda algo se deu errado 
-                       const errorData = await response.json()
-                       setError(errorData.message)
-                }
-        }
-
-        return (
-                <div className="
+  return (
+    <div
+      className="
                 min-h-screen flex items-center justify-center
                 bg-zinc-950 text-zinc-50
-                ">
-                        <form onSubmit={Register}
-                        className="flex flex-col gap-6"
-                        >
-                                <div>
-                                        <label htmlFor="name">Name</label>
-                                        <br />
-                                        <input type="text" id="name"
-                                        className="form-input-field"
-                                        value={name}
-                                        onChange={(event) => { 
-                                                setName(event.target.value)
-                                        }}
-                                        />
-                                </div>
-                                <div>
-                                        <label htmlFor="email">Email</label>
-                                        <br />
-                                        <input type="email" id="email"
-                                        className="form-input-field"
-                                        value={email}
-                                        onChange={(event) => { 
-                                                setEmail(event.target.value)
-                                        }}
-                                        />
-                                </div>
+                "
+    >
+      <FieldSet onSubmit={Register}>
+        <FieldLegend>Cadastro</FieldLegend>
+        <FieldDescription>Campos com * são obrigatórios</FieldDescription>
 
-                                <div>
-                                        <label htmlFor="password">Senha</label>
-                                        <br />
-                                        <input type="password" id="password"
-                                        className="form-input-field"
-                                        value={password}
-                                        onChange={(event) => { 
-                                                setPassword(event.target.value)
-                                        }}
-                                        />
-                                </div>
+        <FieldGroup>
+            <Field>
+                <FieldLabel htmlFor="name">Nome *</FieldLabel>
+                <br />
+                <Input
+                    type="text"
+                    id="name"
+                    placeholder="Eu Mesmo"
+                    value={name}
+                    onChange={(event) => {
+                    setName(event.target.value);
+                    }}
+                />
+            </Field>
 
-                                <button type="submit"
-                                className="primary-button"
-                                >
-                                        Registrar
-                                </button>
+            <Field>
+                <FieldLabel htmlFor="email">Email</FieldLabel>
+                <br />
+                <Input
+                type="email"
+                id="email"
+                placeholder="eu@email.com"
+                value={email}
+                onChange={(event) => {
+                setEmail(event.target.value);
+                }}
+                />
+            </Field>
 
-                                <p className="text-center">Ou</p>
-                        
-                                <button className="
-                                secondary-button
-                                ">
-                                        <Link href="/signin">Login</Link>
-                                </button>
+            <Field>
+                <FieldLabel htmlFor="password">Senha</FieldLabel>
+                <br />
+                <Input
+                type="password"
+                id="password"
+                placeholder="#Abc12"
+                value={password}
+                onChange={(event) => {
+                setPassword(event.target.value);
+                }}
+                />
+            </Field>
+        </FieldGroup>
 
-                                <p>{error}</p>
-                        </form>
-                </div>
-        )
+
+        <Button
+        variant={"outline"}
+        type="submit"
+        className="
+        text-zinc-950
+        ">
+          Registrar
+        </Button>
+
+        <p className="text-center">Ou</p>
+
+        <Button
+        variant={"default"}
+        >
+          <Link href="/signin">Login</Link>
+        </Button>
+
+        <p>{error}</p>
+      </FieldSet>
+    </div>
+  );
 }
