@@ -4,6 +4,9 @@ import { useState, useEffect } from "react"
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation"
 import Link from "next/link";
+import { Field, FieldLabel, FieldLegend, FieldSet } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export default function Signin() {
 
@@ -38,7 +41,7 @@ export default function Signin() {
             return router.push('/')
         }
 
-        return setLoginError('Dados de login incorretos.')
+        return setLoginError('Email e/ou senha incorretos.')
 
     }
 
@@ -47,57 +50,57 @@ export default function Signin() {
         <div 
         className="
         min-h-screen flex items-center justify-center
-        bg-zinc-950 text-zinc-50
         ">
-            <form onSubmit={Login}
-            className="flex flex-col gap-6"
-            >
-                <div>
-                    <label htmlFor="email">Email</label>
-                    <br />
-                    <input id="email"
-                    className="form-input-field"
-                    type="email" 
-                    value={email}
-                    onChange={(event) =>{
-                        setEmail(event.target.value)
-                    }}
-                    />
-                </div>
+            <form onSubmit={Login}>
+                <FieldSet>
+                    <FieldLegend>Cadastro</FieldLegend>
 
-                <div>
-                    <label htmlFor="password">Senha</label>
-                    <br />
-                    <input id="password"
-                    className="form-input-field"
-                    type="password"
-                    value={password}
-                    onChange={(event) =>{
-                        setPassword(event.target.value)
-                    }}
-                    />
-                </div>
+                    <Field>
+                        <FieldLabel htmlFor="email">Email</FieldLabel>
+                        <br />
+                        <Input id="email"
+                        type="email" 
+                        value={email}
+                        onChange={(event) =>{
+                            setEmail(event.target.value)
+                        }}
+                        />
+                    </Field>
+
+                    <Field>
+                        <FieldLabel htmlFor="password">Senha</FieldLabel>
+                        <br />
+                        <Input id="password"
+                        type="password"
+                        value={password}
+                        onChange={(event) =>{
+                            setPassword(event.target.value)
+                        }}
+                        />
+                    </Field>
 
 
-                <button type="submit"
-                className="primary-button"
-                >Entrar
-                </button>
+                    <Button type="submit"
+                    >
+                        Entrar
+                    </Button>
 
-                <p className="
-                text-center
-                ">Ou</p>
+                    <p className="
+                    text-center
+                    ">Ou</p>
 
-                <button className="
-                secondary-button
-                ">
-                    <Link href="/signup">Cadastro</Link>
-                </button>
+                    <Button asChild
+                    variant={"secondary"}
+                    >
+                        <Link href="/signup">Cadastro</Link>
+                    </Button>
 
-                <p onLoad={() => setLoginError('')}>
-                    {loginError}
-                </p>
+                    <p onLoad={() => setLoginError('')}>
+                        {loginError}
+                    </p>
+                </FieldSet>
             </form>
+
         </div>
 
     )

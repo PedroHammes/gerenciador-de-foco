@@ -5,6 +5,9 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation"
+import { ButtonGroup } from "@/components/ui/button-group";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export default function Home() {
 
@@ -96,7 +99,6 @@ export default function Home() {
     <section
     className="
     h-dvh flex flex-col items-center justify-between
-    bg-zinc-900 text-zinc-50
     p-8
     "
     >
@@ -110,22 +112,18 @@ export default function Home() {
             Olá, {session.user?.name}!
           </h2>
 
-          <div className="
-          flex flex row gap-2
-          ">
-            <button
+          <ButtonGroup>
+            <Button
             onClick={() => router.push("/profile")}
-            className="
-            primary-button
-            ">
+            >
               Perfil
-            </button>
-            <button onClick={() => signOut()} className="
-            secondary-button
-            ">
+            </Button>
+            <Button onClick={() => signOut()}
+            variant={"secondary"}
+            >
               Sair
-            </button>
-          </div>
+            </Button>
+          </ButtonGroup>
 
         </nav>
       
@@ -143,57 +141,59 @@ export default function Home() {
             </h1>
           </div>
 
-          <input 
-            type="text"
-            placeholder="No que você está trabalhando?"
-            value={description} 
-            onChange={(event) => { 
-              setDescription(event.target.value)
-            }}
-            className="
-            form-input-field
-            w-full
-            ">
-          </input>
+            <div className="flex w-full max-w-sm items-center gap-2">
+                <Input
+                type="text"
+                placeholder="No que você está trabalhando?"
+                value={description} 
+                onChange={(event) => { 
+                setDescription(event.target.value)
+                }}
+                />
 
-          <div className="
+                
+            </div>
+
+          {/* <div className="
           flex flex-row gap-2
           ">
-            <button onClick={() => {
-              if (stopwatchStatus == 'stopped') {
-                setStopwatchStatus('running')
-                setStart(new Date())
-              } else if (stopwatchStatus == 'running') {
-                setStopwatchStatus('paused')
-              } else if (stopwatchStatus == 'paused') {
-                setStopwatchStatus('running')
-              }
-            }}
-            className="
-            primary-button
-            ">
-              {stopwatchStatus == 'stopped' ? 'Start' : stopwatchStatus == 'running' ? 'Pause' : 'Play'}
-            </button>
 
-            <button id="btn-save"
-            onClick={handleSave}
-            disabled={ stopwatchStatus === 'stopped' ? true : false }
-            className="
-            secondary-button
-            ">
-              Save
-            </button>
 
-            <button  id="btn-cancel"
-            onClick={handleCancel}
-            disabled={ stopwatchStatus === 'stopped' ? true : false }
-            className="
-            secondary-button
-            ">
-              Cancel
-            </button>
 
-          </div>
+          </div> */}
+
+            <ButtonGroup>
+                <Button onClick={() => {
+                if (stopwatchStatus == 'stopped') {
+                    setStopwatchStatus('running')
+                    setStart(new Date())
+                } else if (stopwatchStatus == 'running') {
+                    setStopwatchStatus('paused')
+                } else if (stopwatchStatus == 'paused') {
+                    setStopwatchStatus('running')
+                }
+                }}
+                variant={"default"}
+                >
+                    {stopwatchStatus == 'stopped' ? 'Start' : stopwatchStatus == 'running' ? 'Pause' : 'Play'}
+                </Button>
+
+                <Button id="btn-save"
+                onClick={handleSave}
+                disabled={ stopwatchStatus === 'stopped' ? true : false }
+                variant={"secondary"}
+                >
+                    Save
+                </Button>
+
+                <Button  id="btn-cancel"
+                onClick={handleCancel}
+                disabled={ stopwatchStatus === 'stopped' ? true : false }
+                variant={"destructive"}
+                >
+                    Cancel
+                </Button>
+            </ButtonGroup>
 
         </main>
 

@@ -43,47 +43,6 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-body {
-  /* background: var(--background);
-  color: var(--foreground); */
-}
-
-h1 {
-  @apply
-  text-8xl
-  font-bold  
-}
-
-h2 {
-  @apply
-  text-3xl
-}
-
-h3 {
-  @apply
-  text-xl
-}
-
-.primary-button {
-  @apply 
-  max-w-73 min-w-24 
-  border-2 border-zinc-50 rounded-md
-  bg-zinc-50 text-zinc-950;
-}
-
-.secondary-button {
-  @apply 
-  max-w-73 min-w-24
-  border-2 border-zinc-50 rounded-md
-  bg-zinc-900 text-zinc-50;
-}
-
-.form-input-field {
-  @apply
-  border-2 border-zinc-50 rounded-md
-  px-4 py-2
-}
-
 .card-timer {
   @apply
   bg-zinc-500
@@ -167,4 +126,31 @@ h3 {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+body {
+  /* background: var(--background);
+  color: var(--foreground); */
+}
+
+h1 {
+  @apply
+  /* text-8xl
+  font-bold   */
+  scroll-m-20 text-center text-6xl font-bold tracking-tight text-balance
+}
+
+h2 {
+  @apply
+  scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0
+}
+
+h3 {
+  @apply
+  text-xl
+}
+
+Button {
+    @apply
+    cursor-pointer
 }

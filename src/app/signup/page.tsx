@@ -59,77 +59,76 @@ export default function Signup() {
     <div
       className="
                 min-h-screen flex items-center justify-center
-                bg-zinc-950 text-zinc-50
                 "
     >
-      <FieldSet onSubmit={Register}>
-        <FieldLegend>Cadastro</FieldLegend>
-        <FieldDescription>Campos com * são obrigatórios</FieldDescription>
+        <form  onSubmit={Register}>
+            <FieldSet>
+                <FieldLegend>Cadastro</FieldLegend>
+                <FieldDescription>Campos com * são obrigatórios</FieldDescription>
 
-        <FieldGroup>
-            <Field>
-                <FieldLabel htmlFor="name">Nome *</FieldLabel>
-                <br />
-                <Input
-                    type="text"
-                    id="name"
-                    placeholder="Eu Mesmo"
-                    value={name}
-                    onChange={(event) => {
-                    setName(event.target.value);
-                    }}
-                />
-            </Field>
+                <FieldGroup>
+                    <Field>
+                        <FieldLabel htmlFor="name">Nome *</FieldLabel>
+                        <br />
+                        <Input
+                            type="text"
+                            id="name"
+                            placeholder="José Bezerra"
+                            value={name}
+                            onChange={(event) => {
+                            setName(event.target.value);
+                            }}
+                        />
+                    </Field>
 
-            <Field>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
-                <br />
-                <Input
-                type="email"
-                id="email"
-                placeholder="eu@email.com"
-                value={email}
-                onChange={(event) => {
-                setEmail(event.target.value);
-                }}
-                />
-            </Field>
+                    <Field>
+                        <FieldLabel htmlFor="email">Email</FieldLabel>
+                        <br />
+                        <Input
+                        type="email"
+                        id="email"
+                        placeholder="josebezerra@email.com"
+                        value={email}
+                        onChange={(event) => {
+                        setEmail(event.target.value);
+                        }}
+                        />
+                    </Field>
 
-            <Field>
-                <FieldLabel htmlFor="password">Senha</FieldLabel>
-                <br />
-                <Input
-                type="password"
-                id="password"
-                placeholder="#Abc12"
-                value={password}
-                onChange={(event) => {
-                setPassword(event.target.value);
-                }}
-                />
-            </Field>
-        </FieldGroup>
+                    <Field>
+                        <FieldLabel htmlFor="password">Senha</FieldLabel>
+                        <br />
+                        <Input
+                        type="password"
+                        id="password"
+                        placeholder="#Abc12"
+                        value={password}
+                        onChange={(event) => {
+                        setPassword(event.target.value);
+                        }}
+                        />
+                    </Field>
+                </FieldGroup>
 
 
-        <Button
-        variant={"outline"}
-        type="submit"
-        className="
-        text-zinc-950
-        ">
-          Registrar
-        </Button>
+                <Button
+                type="submit">
+                Registrar
+                </Button>
 
-        <p className="text-center">Ou</p>
+                <p className="text-center">Ou</p>
 
-        <Button
-        variant={"default"}
-        >
-          <Link href="/signin">Login</Link>
-        </Button>
+                <Button
+                variant={"secondary"}
+                asChild
+                >
+                <Link href="/signin">Login</Link>
+                </Button>
 
-        <p>{error}</p>
-      </FieldSet>
+                <p>{error}</p>
+            </FieldSet>
+        </form>
+
     </div>
   );
 }
