@@ -4,8 +4,9 @@ import { signOut, useSession } from "next-auth/react"
 import { useState } from "react";
 import Link from "next/link"
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
-type FocusSession = {
+export type FocusSession = {
   id: string;
   description: string;
   duration: number;
@@ -20,19 +21,19 @@ export default function Profile() {
     const [sessions, setSessions] = useState< FocusSession[] >([])
     const router = useRouter()
 
-    const fetchSessions = async () => {
-        try {
-            const response = await fetch('/api/foco')
-            const data = await response.json() // Converte a resposta para JSON
-            setSessions(data)
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error("Falha ao carregar sessões: ", error.message)
-            } else {
-                console.error("Erro inesperado", error)
-            }
-        }
-    }
+    // const fetchSessions = async () => {
+    //     try {
+    //         const response = await fetch('/api/foco')
+    //         const data = await response.json() // Converte a resposta para JSON
+    //         setSessions(data)
+    //     } catch (error) {
+    //         if (error instanceof Error) {
+    //             console.error("Falha ao carregar sessões: ", error.message)
+    //         } else {
+    //             console.error("Erro inesperado", error)
+    //         }
+    //     }
+    // }
 
     if (status === "loading") {
         return (
@@ -48,14 +49,15 @@ export default function Profile() {
     } else if (status === "authenticated") {
         return (
             <section className="
-            h-dvh flex flex-col items-center justify-center
-            bg-zinc-900 text-zinc-50
+            h-dvh flex flex-col items-center justify-between
+            p-8
             ">
 
 
                 <nav
                 className="
-                flex flex-row gap-10
+                w-full
+                flex flex-row justify-between items-center
                 ">
                     <h2>
                         Olá {session.user?.name}
@@ -64,19 +66,23 @@ export default function Profile() {
                     <div className="
                     flex flex row gap-2
                     ">
-                        <button
+                        <Button
                         onClick={() => router.push("/")}
-                        className="
-                        primary-button
-                        ">
+                        >
                             Início
-                        </button>
+                        </Button>
+
+                        <Button
+                        onClick={() => router.push("/history")}
+                        >
+                            Histórico
+                        </Button>
                         
-                        <button onClick={() => signOut()} className="
-                        secondary-button
-                        ">
+                        <Button onClick={() => signOut()}
+                        variant={"secondary"}
+                        >
                             Sair
-                        </button>
+                        </Button>
                     </div>
 
                 </nav>
@@ -85,7 +91,7 @@ export default function Profile() {
                     <p>Editar perfil</p>
                 </div>
 
-                <div>
+                {/* <div>
                     <p>Histórico</p>
                     <button
                     onClick={fetchSessions}
@@ -101,14 +107,14 @@ export default function Profile() {
                             <div key={session.id} className="
                             card-timer
                             ">
-                                <h3>{session.description}</h3>
+                                <h4>{session.description}</h4>
                                 <p>Foco: {session.duration}</p>
                                 <button className="primary-button">Excluir</button>
                             </div>
                         ))
                         }
                     </div>
-                </div>
+                </div> */}
                 
 
 
