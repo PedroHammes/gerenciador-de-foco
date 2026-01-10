@@ -7,13 +7,14 @@
 generator client {
   provider = "prisma-client-js" // Gera o cliente Prisma em JavaScript/TypeScript
   output   = "../src/generated/prisma" // Define o diretório de saída para o cliente gerado
+  engineType = "client" // Define o tipo de engine como 'client' 
 }
 
 datasource db {
   provider = "postgresql"
 }
 
-// Modelo paraos usuários
+// Meu modelo para a tabela de usuários
 model User {
   id            String           @id @default(uuid())
   name          String
@@ -28,7 +29,7 @@ model User {
   focusSession  FocusSession[]  //Relação (1-M): 1 usuário pode ter muitas sessões
 }
 
-// Meu modelo para a tabela de sessões de foco
+// Modelo para a tabela de sessões de foco
 model FocusSession {
   id            String   @id @default(uuid()) // Identificador único automático
   description   String   // A atividade em que você focou

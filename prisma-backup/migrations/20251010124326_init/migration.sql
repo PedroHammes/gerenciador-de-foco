@@ -1,9 +1,0 @@
--- CreateTable
-CREATE TABLE "FocusSession" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "description" TEXT NOT NULL,
-    "startTime" DATETIME NOT NULL,
-    "endTime" DATETIME NOT NULL,
-    "duration" INTEGER NOT NULL,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
