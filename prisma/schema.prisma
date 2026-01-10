@@ -1,14 +1,16 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
-  provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  provider = "prisma-client-js" // Gera o cliente Prisma em JavaScript/TypeScript
+  output   = "../src/generated/prisma" // Define o diretório de saída para o cliente gerado
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
 }
 
 // Modelo paraos usuários
@@ -18,18 +20,23 @@ model User {
   email         String           @unique
   password      String
   createdAt     DateTime         @default(now())
+  phone         String?
+  gender        String?
+  city          String?
+  profilePic    String?
+  birthDate     DateTime?
   focusSession  FocusSession[]  //Relação (1-M): 1 usuário pode ter muitas sessões
 }
 
 // Meu modelo para a tabela de sessões de foco
 model FocusSession {
-  id          String   @id @default(uuid()) // Identificador único automático
-  description String   // A atividade em que você focou
-  startTime   DateTime // Quando a sessão começou
-  endTime     DateTime // Quando a sessão terminou
-  duration    Int      // Duração em segundos, que vamos salvar
+  id            String   @id @default(uuid()) // Identificador único automático
+  description   String   // A atividade em que você focou
+  typeActivity  String   // Tipo de atividade (ex: estudo, trabalho, leitura). Será uma tag no frontend, selecionada como select.
+  startTime     DateTime // Quando a sessão começou
+  endTime       DateTime // Quando a sessão terminou
+  duration      Int      // Duração em segundos, que vamos salvar
   createdAt   DateTime @default(now()) // Data em que o registro foi criado
-
 
   // Informações do usuário a quem pertence a sessão de foco
   userId      String      // Como se fosse uma 'label' para o id do usuário
