@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 export type FocusSession = {
   id: string;
   description: string;
+  typeActivity: string;
   duration: number;
   startTime: string | Date;
   endTime: string | Date;
@@ -20,20 +21,6 @@ export default function Profile() {
     const { data: session, status } = useSession()
     const [sessions, setSessions] = useState< FocusSession[] >([])
     const router = useRouter()
-
-    // const fetchSessions = async () => {
-    //     try {
-    //         const response = await fetch('/api/foco')
-    //         const data = await response.json() // Converte a resposta para JSON
-    //         setSessions(data)
-    //     } catch (error) {
-    //         if (error instanceof Error) {
-    //             console.error("Falha ao carregar sessões: ", error.message)
-    //         } else {
-    //             console.error("Erro inesperado", error)
-    //         }
-    //     }
-    // }
 
     if (status === "loading") {
         return (
@@ -90,34 +77,6 @@ export default function Profile() {
                 <div>
                     <p>Editar perfil</p>
                 </div>
-
-                {/* <div>
-                    <p>Histórico</p>
-                    <button
-                    onClick={fetchSessions}
-                    className="
-                    primary-button
-                    ">
-                        Load history
-                    </button>
-                
-                    <div>
-                        {
-                        sessions.map(session => (
-                            <div key={session.id} className="
-                            card-timer
-                            ">
-                                <h4>{session.description}</h4>
-                                <p>Foco: {session.duration}</p>
-                                <button className="primary-button">Excluir</button>
-                            </div>
-                        ))
-                        }
-                    </div>
-                </div> */}
-                
-
-
             </section>
         )
     }

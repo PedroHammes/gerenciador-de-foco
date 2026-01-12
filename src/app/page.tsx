@@ -16,6 +16,8 @@ export default function Home() {
   const [stopwatchStatus, setStopwatchStatus] = useState('stopped')
   const [seconds, setSeconds] = useState(0)
   const [description, setDescription] = useState('')
+  // declarar typeActivity aqui
+  const [typeActivity, setTypeActivity] = useState('')
   const [start, setStart] = useState< Date | null >(null)
     const router = useRouter()
 
@@ -52,6 +54,8 @@ export default function Home() {
       },
       body: JSON.stringify({
         description,
+        //typeActivity deve ser declarada aqui
+        typeActivity,
         startTime: start,
         endTime: new Date(),
         duration: seconds,
@@ -63,9 +67,13 @@ export default function Home() {
     if (response.ok) { //Verifica se a REQUISIÇÃO foi bem sucedida
       setStopwatchStatus('stopped')
       setSeconds(0)
+      setDescription('')
+      setTypeActivity('')
+      console.log("Sessão salva com sucesso!")
+      window.alert("Sessão salva com sucesso!")
       
     } else {
-      console.error("Falha ao salvar a sessão.")
+      window.alert("Falha ao salvar a sessão.")
     }
 
   }
@@ -151,6 +159,14 @@ export default function Home() {
                 }}
                 />
 
+                <Input
+                type="text"
+                placeholder="Selecione o tipo de atividade"
+                value={typeActivity} 
+                onChange={(event) => { 
+                setTypeActivity(event.target.value)
+                }}
+                />
                 
             </div>
 
