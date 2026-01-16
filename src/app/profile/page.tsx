@@ -4,15 +4,15 @@ import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
 import ProfileForm from "./profile-form";
 
-// export type FocusSession = {
-//   id: string;
-//   description: string;
-//   typeActivity: string;
-//   duration: number;
-//   startTime: string | Date;
-//   endTime: string | Date;
-//   createdAt: string | Date;
-// }
+export type FocusSession = {
+  id: string;
+  description: string;
+  typeActivity: string;
+  duration: number;
+  startTime: string | Date;
+  endTime: string | Date;
+  createdAt: string | Date;
+}
 
 export default async function Profile() {
 

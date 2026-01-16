@@ -110,30 +110,6 @@ export default function Home() {
     p-8
     "
     >
-
-        <nav
-        className="
-        w-full
-        flex flex-row justify-between items-center
-        ">
-          <h2>
-            Olá, {session.user?.name}!
-          </h2>
-
-          <ButtonGroup>
-            <Button
-            onClick={() => router.push("/profile")}
-            >
-              Perfil
-            </Button>
-            <Button onClick={() => signOut()}
-            variant={"secondary"}
-            >
-              Sair
-            </Button>
-          </ButtonGroup>
-
-        </nav>
       
         <main className="
         flex flex-col items-center justify-center

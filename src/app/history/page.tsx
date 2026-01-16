@@ -55,39 +55,6 @@ export default function History() {
             h-dvh flex flex-col items-center
             p-8
             ">
-                <nav
-                className="
-                w-full
-                flex flex-row justify-between items-center
-                ">
-                    <h2>
-                        Histórico
-                    </h2>
-
-                    <div className="
-                    flex flex row gap-2
-                    ">
-                        <Button
-                        onClick={() => router.push("/")}
-                        >
-                            Início
-                        </Button>
-
-                        <Button
-                        onClick={() => router.push("/history")}
-                        >
-                            Histórico
-                        </Button>
-                        
-                        <Button onClick={() => signOut()}
-                        variant={"secondary"}
-                        >
-                            Sair
-                        </Button>
-                    </div>
-
-                </nav>
-
                 <main className="
                 flex flex-col justify-center flex-grow
                 ">

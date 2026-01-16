@@ -1,16 +1,12 @@
-"use client";    
+"use client";
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import {
-  FieldDescription,
-  FieldGroup,
-  FieldLegend,
   FieldSet,
   Field,
-  FieldContent,
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -25,16 +21,14 @@ export default function Signup() {
   const { data: session, status } = useSession();
 
   useEffect(() => {
-    // Verifico se o usuário já está autenticado,
-    // Se sim direciono para a página principal (/)
     if (status === "authenticated") {
       router.push("/");
     }
-  }, [status, router]); // Dependêcias: o efeito é executado SE 'status' ou 'router mudarem'
+  }, [status, router]);
 
-  // Função para registrar um novo usuário no DB
   async function Register(event: React.FormEvent) {
     event.preventDefault();
+    setError(""); // Limpa erro anterior ao tentar novamente
 
     const response = await fetch("/api/auth/signup", {
       method: "POST",
@@ -45,90 +39,96 @@ export default function Signup() {
     });
 
     if (response.ok) {
-      // Direcione para o login se deu certo
       router.push("/signin");
     } else {
-      // Responda algo se deu errado
       const errorData = await response.json();
-      setError(errorData.message);
+      setError(errorData.message || "Erro ao criar conta.");
     }
   }
-  
 
   return (
-    <div
-      className="
-                min-h-screen flex items-center justify-center
-                "
-    >
-        <form  onSubmit={Register}>
-            <FieldSet>
-                <FieldLegend>Cadastro</FieldLegend>
-                <FieldDescription>Campos com * são obrigatórios</FieldDescription>
+    <div className="flex min-h-screen flex-col items-center justify-center bg-slate-50 px-4">
+      {/* Container do Cartão */}
+      <div className="w-full max-w-md space-y-8 rounded-xl bg-white p-10 shadow-lg border border-slate-100">
+        
+        {/* Cabeçalho Visual */}
+        <div className="text-center">
+          <h2 className="mt-2 text-3xl font-extrabold text-gray-900">
+            Crie sua conta
+          </h2>
+          <p className="mt-2 text-sm text-gray-600">
+            Comece a gerenciar seu foco hoje mesmo
+          </p>
+        </div>
 
-                <FieldGroup>
-                    <Field>
-                        <FieldLabel htmlFor="name">Nome *</FieldLabel>
-                        <br />
-                        <Input
-                            type="text"
-                            id="name"
-                            placeholder="José Bezerra"
-                            value={name}
-                            onChange={(event) => {
-                            setName(event.target.value);
-                            }}
-                        />
-                    </Field>
+        <form onSubmit={Register} className="mt-8 space-y-6">
+          <FieldSet>
+            
+            <Field>
+              <FieldLabel htmlFor="name" className="text-sm font-medium">
+                Nome *
+              </FieldLabel>
+              <Input
+                type="text"
+                id="name"
+                placeholder="José Bezerra"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                className="rounded-md border p-2 text-sm outline-none ring-offset-2 focus:ring-2 focus:ring-black"
+              />
+            </Field>
 
-                    <Field>
-                        <FieldLabel htmlFor="email">Email</FieldLabel>
-                        <br />
-                        <Input
-                        type="email"
-                        id="email"
-                        placeholder="josebezerra@email.com"
-                        value={email}
-                        onChange={(event) => {
-                        setEmail(event.target.value);
-                        }}
-                        />
-                    </Field>
+            <Field>
+              <FieldLabel htmlFor="email" className="text-sm font-medium">
+                Email *
+              </FieldLabel>
+              <Input
+                type="email"
+                id="email"
+                placeholder="josebezerra@email.com"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                className="rounded-md border p-2 text-sm outline-none ring-offset-2 focus:ring-2 focus:ring-black"
+              />
+            </Field>
 
-                    <Field>
-                        <FieldLabel htmlFor="password">Senha</FieldLabel>
-                        <br />
-                        <Input
-                        type="password"
-                        id="password"
-                        placeholder="#Abc12"
-                        value={password}
-                        onChange={(event) => {
-                        setPassword(event.target.value);
-                        }}
-                        />
-                    </Field>
-                </FieldGroup>
+            <Field>
+              <FieldLabel htmlFor="password" className="text-sm font-medium">
+                Senha *
+              </FieldLabel>
+              <Input
+                type="password"
+                id="password"
+                placeholder="#Abc12"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                className="rounded-md border p-2 text-sm outline-none ring-offset-2 focus:ring-2 focus:ring-black"
+              />
+            </Field>
 
+            <Button type="submit" className="w-full">
+              Registrar
+            </Button>
+            
+            {/* Exibição de Erro */}
+            {error && (
+                <p className="text-center text-sm text-red-500 mt-2">
+                    {error}
+                </p>
+            )}
 
-                <Button
-                type="submit">
-                Registrar
-                </Button>
-
-                <p className="text-center">Ou</p>
-
-                <Button
-                variant={"secondary"}
-                asChild
-                >
-                <Link href="/signin">Login</Link>
-                </Button>
-
-                <p>{error}</p>
-            </FieldSet>
+          </FieldSet>
         </form>
 
+        {/* Rodapé do Cartão */}
+        <div className="text-center text-sm">
+          <span className="text-gray-500">Já tem uma conta? </span>
+          <Link href="/signin" className="font-semibold text-black hover:underline">
+            Faça login
+          </Link>
+        </div>
+
+      </div>
     </div>
   );
 }
