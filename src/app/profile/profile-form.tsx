@@ -68,8 +68,12 @@ export default function ProfileForm({user: user}: ProfileFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8">
-      <FieldGroup>
+    <form onSubmit={handleSubmit} className="
+    w-full max-w-md
+    ">
+      <FieldGroup className="
+      mt-12
+      ">
         <FieldSet>
             <FieldLegend>Informações básicas</FieldLegend>
             <Field>
@@ -112,7 +116,9 @@ export default function ProfileForm({user: user}: ProfileFormProps) {
         <FieldSeparator/>
       </FieldGroup>
 
-      <FieldGroup>
+      <FieldGroup className="
+      mt-12
+      ">
         <FieldSet>
           <FieldLegend>Informações de Contato</FieldLegend>
           <Field>
@@ -140,9 +146,12 @@ export default function ProfileForm({user: user}: ProfileFormProps) {
             />
           </Field>
         </FieldSet>
+        <FieldSeparator/>
       </FieldGroup>
 
-      <FieldGroup>
+      <FieldGroup className="
+      mt-12
+      ">
         <FieldSet>
           <FieldLegend>Informações adicionais</FieldLegend>
           <Field>
@@ -200,12 +209,17 @@ export default function ProfileForm({user: user}: ProfileFormProps) {
             </RadioGroup>
           </Field>
         </FieldSet>
+        <FieldSeparator/>
       </FieldGroup>
-      <div className="pt-4">
+
+      <div className="
+      pt-4 mb-12
+      ">
         <Button type="submit" disabled={loading}>
           {loading ? 'Salvando...' : 'Salvar alterações'}
         </Button>
       </div>
+
     </form>
   )
 }

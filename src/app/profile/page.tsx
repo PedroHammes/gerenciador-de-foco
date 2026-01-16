@@ -32,6 +32,11 @@ export default async function Profile() {
         return redirect('/signin')
     }
     return (
-        <ProfileForm user={user}/>
+        <section className="
+        h-dvh flex flex-col items-center
+        p-8
+        ">
+            <ProfileForm user={user}/>
+        </section>
     )
 }
