@@ -29,7 +29,8 @@ export async function POST(request: Request) {
                 if (error instanceof Prisma.PrismaClientKnownRequestError) {
                         if (error.code === 'P2002') {
                                 return NextResponse.json(
-                                        'There is a unique constraint violation, a new user cannot be created with this email'
+                                        {message: 'Email já está em uso. Por favor, utilize outro email.'},
+                                        {status: 409} // Conflict
                                 )
                         }
                 }
