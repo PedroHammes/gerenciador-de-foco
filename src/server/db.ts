@@ -10,7 +10,7 @@
 // 5. Banco de dados PostgreSQL
 
 import "dotenv/config"; // Carrega variáveis de ambiente do arquivo .env
-import { PrismaClient } from "@/generated/prisma"; // Importa o Prisma Client gerado
+import { PrismaClient } from "@prisma/client"; // Importa o Prisma Client gerado
 import { PrismaPg } from "@prisma/adapter-pg"; // Importa o adaptador PostgreSQL do Prisma
 import { Pool } from "pg"; // Importa o Pool do pg para gerenciar conexões com o PostgreSQL
 

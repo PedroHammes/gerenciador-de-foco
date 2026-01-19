@@ -6,8 +6,6 @@
 
 generator client {
   provider = "prisma-client-js" // Gera o cliente Prisma em JavaScript/TypeScript
-  output   = "../src/generated/prisma" // Define o diretório de saída para o cliente gerado
-  engineType = "client" // Define o tipo de engine como 'client' 
 }
 
 datasource db {
