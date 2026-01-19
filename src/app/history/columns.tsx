@@ -1,7 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table";
-import { FocusSession } from "../profile/page";
+import type { FocusSession } from "../profile/page";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 

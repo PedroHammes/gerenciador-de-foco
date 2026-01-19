@@ -7,7 +7,7 @@ import { columns } from "./columns"
 import { DataTable } from "@/components/ui/data-table"
 import Link from "next/link"
 import { useState, useEffect } from "react"
-import { FocusSession } from "../profile/page"
+import type { FocusSession } from "../profile/page"
 
 
 export default function History() {
@@ -56,7 +56,7 @@ export default function History() {
             p-8
             ">
                 <main className="
-                flex flex-col justify-center flex-grow
+                flex flex-col justify-center grow
                 ">
                     <DataTable columns={columns} data={sessions}/>
                 </main>
