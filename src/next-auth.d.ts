@@ -1,5 +1,5 @@
 // Este arquivo estende os tipos do NextAuth para incluir o ID do usuário na sessão para melhor tipagem em TypeScript e validação de dados.
-import NextAuth, { DefaultSession } from "next-auth" // Importa o tipo DefaultSession de next-auth
+import { DefaultSession } from "next-auth" // Importa o tipo DefaultSession de next-auth
 
 // Extende o tipo Session do NextAuth para incluir o ID do usuário
 declare module "next-auth" {

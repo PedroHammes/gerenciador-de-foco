@@ -1,7 +1,6 @@
 import { auth } from "@/auth";
 import { prisma } from "@/server/db";
 import { redirect } from "next/navigation";
-import { NextResponse } from "next/server";
 import ProfileForm from "./profile-form";
 
 export type FocusSession = {

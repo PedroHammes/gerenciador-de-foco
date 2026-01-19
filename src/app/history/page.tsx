@@ -1,8 +1,6 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
-import { useRouter } from "next/navigation"
-import { signOut, useSession, } from "next-auth/react"
+import { useSession, } from "next-auth/react"
 import { columns } from "./columns"
 import { DataTable } from "@/components/ui/data-table"
 import Link from "next/link"
@@ -11,8 +9,8 @@ import type { FocusSession } from "../profile/page"
 
 
 export default function History() {
-    const router = useRouter()
-    const { data: session, status } = useSession()
+
+    const { status } = useSession()
     const [sessions, setSessions] = useState< FocusSession[] >([])  
      
 

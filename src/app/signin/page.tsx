@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation"
 import Link from "next/link";
-import { Field, FieldLabel, FieldLegend, FieldSet } from "@/components/ui/field";
+import { Field, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -14,7 +14,7 @@ export default function Signin() {
     const [password, setPassword] = useState('')
     const [loginError, setLoginError] = useState('')
     const router = useRouter()
-    const {data: session, status} = useSession()
+    const {status} = useSession()
 
     useEffect(() => {
         // Verifico se o usuário já está autenticado,

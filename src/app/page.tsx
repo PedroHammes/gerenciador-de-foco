@@ -3,8 +3,6 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation"
 import { ButtonGroup } from "@/components/ui/button-group";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,7 +17,6 @@ export default function Home() {
   // declarar typeActivity aqui
   const [typeActivity, setTypeActivity] = useState('')
   const [start, setStart] = useState< Date | null >(null)
-    const router = useRouter()
 
   // Efeito que controla o cronômetro
   useEffect(() => {
@@ -145,14 +142,6 @@ export default function Home() {
                 />
                 
             </div>
-
-          {/* <div className="
-          flex flex-row gap-2
-          ">
-
-
-
-          </div> */}
 
             <ButtonGroup>
                 <Button onClick={() => {
