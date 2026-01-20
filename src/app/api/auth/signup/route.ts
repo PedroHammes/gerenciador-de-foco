@@ -17,7 +17,16 @@ export async function POST(request: Request) {
                         data: {
                                 name,
                                 email,
-                                password: hashedPassword
+                                password: hashedPassword,
+                                categories: {
+                                        create: [
+                                                {name: 'trabalho', color: 'oklch(55.4% 0.046 257.417)'},
+                                                {name: 'estudo', color: 'oklch(62.3% 0.214 259.815)'},
+                                                {name: 'exercícios', color: 'oklch(63.7% 0.237 25.331)'},
+                                                {name: 'projetos', color: 'oklch(58.5% 0.233 277.117)'},
+                                                {name: 'planejamento', color: 'oklch(72.3% 0.219 149.579)'}
+                                        ]
+                                }
                         }
                 })
 

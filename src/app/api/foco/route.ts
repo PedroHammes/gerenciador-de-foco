@@ -18,14 +18,21 @@ export async function POST(request: Request) {
                         )
                 }
 
-                // Cria a seção de foco, conectando-a ao usuário
+                // Cria a seção de foco, conectando-a ao usuário e à categoria correta
                 const newFocusSession = await prisma.focusSession.create({
                         data: {
                                 startTime, 
                                 endTime,
                                 duration,
                                 description,
-                                typeActivity,
+                                category: {
+                                        connect: {
+                                                name_userId: {
+                                                        name: typeActivity, 
+                                                        userId: userId
+                                                }
+                                        }
+                                }, // Esta linha conecta a sessão de foco à categoria correta
                                 // Código para conectar o ID do usuário da sessão a esta sessão de foco
                                 user: {
                                         connect: {
@@ -65,6 +72,12 @@ export async function GET() {
                 const allFocusSession = await prisma.focusSession.findMany({
                         where: {
                                 userId: session.user?.id
+                        },
+                        include: {
+                                category: true
+                        },
+                        orderBy: {
+                                createdAt: 'desc'
                         }
                 })
                 //console.log("Dados retornados pelo Prisma:", allFocusSession)

@@ -6,7 +6,10 @@ import ProfileForm from "./profile-form";
 export type FocusSession = {
   id: string;
   description: string;
-  typeActivity: string;
+  category: {
+    name: string,
+    color: string
+  };
   duration: number;
   startTime: string | Date;
   endTime: string | Date;

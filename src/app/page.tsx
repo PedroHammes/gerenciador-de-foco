@@ -7,6 +7,20 @@ import { ButtonGroup } from "@/components/ui/button-group";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+interface ICategory {
+  id: string;
+  name: string;
+  color: string;
+}
+
 export default function Home() {
 
   const { data: session, status } = useSession()
@@ -14,9 +28,10 @@ export default function Home() {
   const [stopwatchStatus, setStopwatchStatus] = useState('stopped')
   const [seconds, setSeconds] = useState(0)
   const [description, setDescription] = useState('')
-  // declarar typeActivity aqui
   const [typeActivity, setTypeActivity] = useState('')
   const [start, setStart] = useState< Date | null >(null)
+
+  const [categories, setCategories] = useState<ICategory[]>([])
 
   // Efeito que controla o cronômetro
   useEffect(() => {
@@ -81,6 +96,7 @@ export default function Home() {
     setSeconds(0)
   }
 
+  // Formata os segundos em hh:mm:ss
   const formatTimer = (secs: number) => {
     const hh = String(Math.floor(secs/3600)).padStart(2, '0')
     const mm = String((Math.floor(secs/60))%60).padStart(2, '0')
@@ -89,6 +105,15 @@ export default function Home() {
     return `${hh}:${mm}:${ss}`
   }
 
+  // Buscar categorias do usuário autenticado ao carregar o componente
+  useEffect( () => {
+    const fetchData = async () => { // Função assíncrona para buscar dados
+      const response = await fetch('api/categories') // Chama a API de categorias
+      const data = await response.json() // Converte a resposta em JSON
+      setCategories(data) // Atualiza o estado com as categorias recebidas
+    }
+    fetchData() // Chama a função de busca de dados
+  }, [])
 
 
   if (status === "loading") {
@@ -132,14 +157,22 @@ export default function Home() {
                 }}
                 />
 
-                <Input
-                type="text"
-                placeholder="Selecione o tipo de atividade"
+                <Select
                 value={typeActivity} 
-                onChange={(event) => { 
-                setTypeActivity(event.target.value)
-                }}
-                />
+                onValueChange={setTypeActivity}
+                >
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Categoria" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.map((categorie) => (
+                        <SelectItem value={categorie.name} key={categorie.id}>{categorie.name}</SelectItem>
+                      )
+                    )}
+                  </SelectContent>
+                </Select>
+
+                
                 
             </div>
 

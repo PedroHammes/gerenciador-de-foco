@@ -24,18 +24,34 @@ model User {
   city          String?
   profilePic    String?
   birthDate     DateTime?
-  focusSession  FocusSession[]  //Relação (1-M): 1 usuário pode ter muitas sessões
+  categories    Category[] //Relação (1-M): 1 usuário pode ter muitas categorias
+  focusSession  FocusSession[]  //Relação (1-M): 1 usuário pode ter muitas sessões de foco
+}
+
+model Category {
+  id        String   @id @default(cuid()) // Identificador único automático
+  name      String   // Nome da categoria
+  color     String   // Cor associada à categoria (ex: #FF5733)
+  userId    String   // Como se fosse uma 'label' para o id do usuário
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade) // Conexão com a tabela User
+
+  sessions  FocusSession[] // Relação (1-M): 1 categoria pode ter muitas sessões de foco
+
+  @@unique([name, userId]) // Garante que o nome da categoria seja único por usuário
 }
 
 // Modelo para a tabela de sessões de foco
 model FocusSession {
   id            String   @id @default(uuid()) // Identificador único automático
   description   String   // A atividade em que você focou
-  typeActivity  String   // Tipo de atividade (ex: estudo, trabalho, leitura). Será uma tag no frontend, selecionada como select.
   startTime     DateTime // Quando a sessão começou
   endTime       DateTime // Quando a sessão terminou
   duration      Int      // Duração em segundos, que vamos salvar
   createdAt   DateTime @default(now()) // Data em que o registro foi criado
+
+  // Informações da categoria associada à sessão de foco  
+  categoryId    String     // Como se fosse uma 'label' para o id da categoria
+  category      Category   @relation(fields: [categoryId], references: [id]) // Conexão com a tabela Category
 
   // Informações do usuário a quem pertence a sessão de foco
   userId      String      // Como se fosse uma 'label' para o id do usuário
