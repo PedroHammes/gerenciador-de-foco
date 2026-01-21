@@ -1,50 +1,64 @@
-import Link from "next/link";
+"use client";
+
 import { 
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle
-} from "../ui/navigation-menu";
-import { Button } from "../ui/button";
+  NavigationMenu, 
+  NavigationMenuItem, 
+  NavigationMenuLink, 
+  NavigationMenuList, 
+  navigationMenuTriggerStyle 
+} from "@/components/ui/navigation-menu";
+import { Button } from "@/components/ui/button";
 
 export default function Navbar() {
   return (
-    <div className="
-    flex items-center justify-between
-    ">
+    <div className="sticky top-0 z-50 flex items-center justify-between w-full p-4 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <NavigationMenu>
         <NavigationMenuList>
+          
           <NavigationMenuItem>
-            <Link href="#timely" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>TimeLy</NavigationMenuLink>
-            </Link>
+            <NavigationMenuLink asChild>
+              <a href="#timely" className={navigationMenuTriggerStyle()}>
+                TimeLy
+              </a>
+            </NavigationMenuLink>
           </NavigationMenuItem>
+
           <NavigationMenuItem>
-            <Link href="#features" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>Funcionalidades</NavigationMenuLink>
-            </Link>
+            <NavigationMenuLink asChild>
+              <a href="#features" className={navigationMenuTriggerStyle()}>
+                Funcionalidades
+              </a>
+            </NavigationMenuLink>
           </NavigationMenuItem>
+
           <NavigationMenuItem>
-            <Link href="#pricing" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>Planos</NavigationMenuLink>
-            </Link>
+            <NavigationMenuLink asChild>
+              <a href="#pricing" className={navigationMenuTriggerStyle()}>
+                Planos
+              </a>
+            </NavigationMenuLink>
           </NavigationMenuItem>
+
           <NavigationMenuItem>
-            <Link href="#support" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>Suporte</NavigationMenuLink>
-            </Link>
+            <NavigationMenuLink asChild>
+              <a href="#support" className={navigationMenuTriggerStyle()}>
+                Suporte
+              </a>
+            </NavigationMenuLink>
           </NavigationMenuItem>
+
           <NavigationMenuItem>
-            <Link href="#social" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>Contato</NavigationMenuLink>
-            </Link>
+            <NavigationMenuLink asChild>
+              <a href="#social" className={navigationMenuTriggerStyle()}>
+                Contato
+              </a>
+            </NavigationMenuLink>
           </NavigationMenuItem>
+
         </NavigationMenuList>
       </NavigationMenu>
-      <div className="
-      flex gap-4
-      ">
+      
+      <div className="flex gap-4">
         <Button variant={"outline"}>
           Entre
         </Button>
@@ -53,6 +67,5 @@ export default function Navbar() {
         </Button>
       </div>
     </div>
-
   )
 }
