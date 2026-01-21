@@ -7,6 +7,8 @@ import Link from "next/link"
 import { useState, useEffect } from "react"
 import type { FocusSession } from "../profile/page"
 import { toast } from "sonner"
+import Unauthenticated from "@/components/unauthenticated"
+import Loading from "@/components/loading"
 
 
 export default function History() {
@@ -38,16 +40,9 @@ export default function History() {
     }, [status])
 
     if (status === "loading") {
-        return (
-            <p>Carregando...</p>    
-        )
+        return <Loading />
     } else if (status === "unauthenticated") {
-        return (
-            <>
-                <p>Acesso negado.</p>
-                <p>Faça <Link href={"/signin"}>login</Link> ou se <Link href={"/signup"}>Cadastre</Link></p>
-            </>
-        )
+        return <Unauthenticated />
     } else if (status === "authenticated") {
 
 

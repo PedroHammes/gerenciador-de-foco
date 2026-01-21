@@ -14,6 +14,11 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Lock } from "lucide-react"; // Ícone de cadeado
+import Unauthenticated from "@/components/unauthenticated";
+import Loading from "@/components/loading";
 
 interface ICategory {
   id: string;
@@ -116,14 +121,9 @@ export default function Home() {
 
 
   if (status === "loading") {
-    return (
-      <p>Carregando...</p>
-    )
+    return <Loading />
   } else if (status === "unauthenticated") {
-    toast.error("Acesso negado.")
-    return (
-      <p>Acesso negado. <br /> Faça o login em: <Link href="/signin">Login</Link></p>
-    )
+    return <Unauthenticated />
   } else if (status === "authenticated") {
       return (
     <section
