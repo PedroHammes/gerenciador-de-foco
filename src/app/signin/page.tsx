@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Field, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 export default function Signin() {
 
@@ -40,7 +41,7 @@ export default function Signin() {
         if (sucessfullLogin.ok) {
             return router.push('/')
         }
-
+        toast.error("Email e/ou senha incorretos.")
         return setLoginError('Email e/ou senha incorretos.')
 
     }

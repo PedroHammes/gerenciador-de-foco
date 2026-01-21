@@ -6,6 +6,7 @@ import { DataTable } from "@/components/ui/data-table"
 import Link from "next/link"
 import { useState, useEffect } from "react"
 import type { FocusSession } from "../profile/page"
+import { toast } from "sonner"
 
 
 export default function History() {
@@ -22,7 +23,9 @@ export default function History() {
         } catch (error) {
             if (error instanceof Error) {
                 console.error("Falha ao carregar sessões: ", error.message)
+                toast.error("Falha ao carregar sessões.")
             } else {
+                toast.error("Erro inesperado.")
                 console.error("Erro inesperado", error)
             }
         }

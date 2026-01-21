@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@radix-ui/react-label"
 import { Button } from "@/components/ui/button"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { toast } from "sonner"
 
 
 interface ProfileFormProps {
@@ -54,10 +55,10 @@ export default function ProfileForm({user: user}: ProfileFormProps) {
       })
 
       if (response.ok) {
-        alert('Perfil atualizado com sucesso!')
+        toast.success('Perfil atualizado com sucesso!')
         router.refresh() // Atualiza os dados da página
       } else {
-        alert('Erro ao atualizar o perfil.')
+        toast.error('Erro ao atualizar o perfil.')
       }
     } catch (error) {
       console.error(error)

@@ -6,7 +6,6 @@ import Link from "next/link";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
 import {
   Select,
   SelectContent,
@@ -14,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { toast } from "sonner";
 
 interface ICategory {
   id: string;
@@ -81,11 +81,10 @@ export default function Home() {
       setSeconds(0)
       setDescription('')
       setTypeActivity('')
-      console.log("Sessão salva com sucesso!")
-      window.alert("Sessão salva com sucesso!")
+      toast.success("Sessão salva com sucesso!")
       
     } else {
-      window.alert("Falha ao salvar a sessão.")
+      toast.error("Falha ao salvar sessão.")
     }
 
   }
@@ -121,6 +120,7 @@ export default function Home() {
       <p>Carregando...</p>
     )
   } else if (status === "unauthenticated") {
+    toast.error("Acesso negado.")
     return (
       <p>Acesso negado. <br /> Faça o login em: <Link href="/signin">Login</Link></p>
     )
@@ -189,7 +189,7 @@ export default function Home() {
                 }}
                 variant={"default"}
                 >
-                    {stopwatchStatus == 'stopped' ? 'Start' : stopwatchStatus == 'running' ? 'Pause' : 'Play'}
+                    {stopwatchStatus == 'stopped' ? 'Iniciar' : stopwatchStatus == 'running' ? 'Pausar' : 'Retomar'}
                 </Button>
 
                 <Button id="btn-save"
@@ -197,7 +197,7 @@ export default function Home() {
                 disabled={ stopwatchStatus === 'stopped' ? true : false }
                 variant={"secondary"}
                 >
-                    Save
+                    Salvar
                 </Button>
 
                 <Button  id="btn-cancel"
@@ -205,7 +205,7 @@ export default function Home() {
                 disabled={ stopwatchStatus === 'stopped' ? true : false }
                 variant={"destructive"}
                 >
-                    Cancel
+                    Cancelar
                 </Button>
             </ButtonGroup>
 

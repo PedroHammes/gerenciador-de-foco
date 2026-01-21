@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 export default function Signup() {
   const [name, setName] = useState("");
@@ -43,6 +44,7 @@ export default function Signup() {
     } else {
       const errorData = await response.json();
       setError(errorData.message || "Erro ao criar conta.");
+      toast.error("Erro ao criar conta.")
     }
   }
 
