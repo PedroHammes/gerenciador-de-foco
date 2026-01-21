@@ -69,7 +69,11 @@ export default function LandingPage() {
           A ferramenta essencial para quem busca saber para onde está indo seu foco e aumentar a produtividade.
         </p>
         <div className="flex gap-4">
-          <Button size="lg">Começar Agora</Button>
+          <Button size="lg" variant={"default"} asChild>
+            <a href="/signup">
+              Começar Agora
+            </a>
+          </Button>
           <Button size="lg" variant="outline">Saber Mais</Button>
         </div>
       </section>

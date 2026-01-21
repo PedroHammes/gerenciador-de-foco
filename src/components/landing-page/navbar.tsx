@@ -59,11 +59,15 @@ export default function Navbar() {
       </NavigationMenu>
       
       <div className="flex gap-4">
-        <Button variant={"outline"}>
-          Entre
+        <Button variant="outline" asChild>
+          <a href="/signin">
+            Entre
+          </a>
         </Button>
-        <Button variant={"default"}>
-          Cadastre-se
+        <Button variant="default" asChild>
+          <a href="/signup">
+            Cadastre-se
+          </a>
         </Button>
       </div>
     </div>

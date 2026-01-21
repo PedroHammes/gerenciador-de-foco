@@ -17,7 +17,7 @@ export default function Navbar() {
         {/* Grupo Esquerda: Navegação */}
         <div className="flex flex-row gap-2">
           <Button asChild variant="outline">
-            <Link href="/">
+            <Link href="/home">
               Home
             </Link>
           </Button>

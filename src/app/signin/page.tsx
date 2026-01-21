@@ -21,7 +21,7 @@ export default function Signin() {
         // Verifico se o usuário já está autenticado,
         // Se sim direciono para a página principal (/)
         if (status === "authenticated") {
-            router.push("/")
+            router.push("/home")
         }
     }, [status, router]) // Dependêcias: o efeito é executado SE 'status' ou 'router mudarem'
 
@@ -39,7 +39,7 @@ export default function Signin() {
         })
 
         if (sucessfullLogin.ok) {
-            return router.push('/')
+            return router.push('/home')
         }
         toast.error("Email e/ou senha incorretos.")
         return setLoginError('Email e/ou senha incorretos.')
