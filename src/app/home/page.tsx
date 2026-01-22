@@ -103,17 +103,13 @@ export default function Home() {
     p-8
     "
     >
-      
         <main className="
         flex flex-col items-center justify-center
         gap-8
         ">
 
           <Timer 
-          stopwatchStatus={stopwatchStatus} 
-          setStopwatchStatus={setStopwatchStatus} 
           seconds={seconds}
-          setStart={setStart}
           />
 
           <div className="flex w-full max-w-sm items-center gap-2">
@@ -143,34 +139,42 @@ export default function Home() {
           </div>
 
           <ButtonGroup>
-
-              <Button id="btn-save"
-              onClick={handleSave}
-              disabled={ stopwatchStatus === 'stopped' ? true : false }
-              variant={"secondary"}
+            <Button onClick={() => {
+              if (stopwatchStatus == 'stopped') {
+                setStopwatchStatus('running')
+                setStart(new Date())
+              } else if (stopwatchStatus == 'running') {
+                setStopwatchStatus('paused')
+              } else if (stopwatchStatus == 'paused') {
+                setStopwatchStatus('running')
+              }
+              }}
+                variant={"default"}
               >
-                  Salvar
-              </Button>
+                {stopwatchStatus == 'stopped' ? 'Iniciar' : stopwatchStatus == 'running' ? 'Pausar' : 'Retomar'}
+            </Button>
+            <Button id="btn-save"
+            onClick={handleSave}
+            disabled={ stopwatchStatus === 'stopped' ? true : false }
+            variant={"secondary"}
+            >
+                Salvar
+            </Button>
 
-              <Button  id="btn-cancel"
-              onClick={handleCancel}
-              disabled={ stopwatchStatus === 'stopped' ? true : false }
-              variant={"destructive"}
-              >
-                  Cancelar
-              </Button>
+            <Button  id="btn-cancel"
+            onClick={handleCancel}
+            disabled={ stopwatchStatus === 'stopped' ? true : false }
+            variant={"destructive"}
+            >
+                Cancelar
+            </Button>
           </ButtonGroup>
-
         </main>
-
         <footer className="
         w-full text-center text-sm text-zinc-500
         ">
           Gerenciador de Foco
         </footer>
-        
-
-
     </section>
   );
   }

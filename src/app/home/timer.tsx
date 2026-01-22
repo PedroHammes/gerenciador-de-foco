@@ -1,14 +1,8 @@
-import { Button } from "@/components/ui/button";
-import { ButtonGroup } from "@/components/ui/button-group";
-
 interface ITimerProps {
-  stopwatchStatus: string;
-  setStopwatchStatus: any;
   seconds: number;
-  setStart: any;
 }
 
-export default function Timer({stopwatchStatus, setStopwatchStatus, seconds, setStart}: ITimerProps) {
+export default function Timer({seconds}: ITimerProps) {
 
   // Formata os segundos em hh:mm:ss
   const formatTimer = (secs: number) => {
@@ -28,22 +22,6 @@ export default function Timer({stopwatchStatus, setStopwatchStatus, seconds, set
           {formatTimer(seconds)}
         </h1>
       </div>
-      <ButtonGroup>
-        <Button onClick={() => {
-          if (stopwatchStatus == 'stopped') {
-            setStopwatchStatus('running')
-            setStart(new Date())
-          } else if (stopwatchStatus == 'running') {
-            setStopwatchStatus('paused')
-          } else if (stopwatchStatus == 'paused') {
-            setStopwatchStatus('running')
-          }
-          }}
-            variant={"default"}
-          >
-            {stopwatchStatus == 'stopped' ? 'Iniciar' : stopwatchStatus == 'running' ? 'Pausar' : 'Retomar'}
-        </Button>
-      </ButtonGroup>
     </section>
   )
 }
