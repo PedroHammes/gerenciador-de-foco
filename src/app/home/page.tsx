@@ -16,6 +16,10 @@ import { toast } from "sonner";
 import Unauthenticated from "@/components/unauthenticated";
 import Loading from "@/components/loading";
 
+// Imports pós modularização do useTimer
+import { useTimer } from "@/hooks/useTimer";
+import Timer from "./timer";
+
 interface ICategory {
   id: string;
   name: string;
@@ -25,32 +29,12 @@ interface ICategory {
 export default function Home() {
 
   const { data: session, status } = useSession()
-
-  const [stopwatchStatus, setStopwatchStatus] = useState('stopped')
-  const [seconds, setSeconds] = useState(0)
   const [description, setDescription] = useState('')
   const [typeActivity, setTypeActivity] = useState('')
-  const [start, setStart] = useState< Date | null >(null)
-
   const [categories, setCategories] = useState<ICategory[]>([])
 
-  // Efeito que controla o cronômetro
-  useEffect(() => {
-    let intervalId: number | NodeJS.Timeout;
-
-    if (stopwatchStatus == 'running') {
-      //Começa a contar cada segundo
-      intervalId = setInterval(() => {
-        setSeconds(prevSeconds => prevSeconds + 1)
-      }, 1000)
-    }
-
-    //Função de limpeza: para o cronômetro de isRunning virar false
-    return() => {
-      clearInterval(intervalId)
-    }
-
-  }, [stopwatchStatus])
+  // Imports pós modularização do useTimer
+  const { stopwatchStatus, setStopwatchStatus, seconds, setSeconds, start, setStart } = useTimer()
 
   //Função para salvar uma sessão no BD
   const handleSave = async () => {
@@ -96,15 +80,6 @@ export default function Home() {
     setSeconds(0)
   }
 
-  // Formata os segundos em hh:mm:ss
-  const formatTimer = (secs: number) => {
-    const hh = String(Math.floor(secs/3600)).padStart(2, '0')
-    const mm = String((Math.floor(secs/60))%60).padStart(2, '0')
-    const ss = String(secs%60).padStart(2, '0')
-
-    return `${hh}:${mm}:${ss}`
-  }
-
   // Buscar categorias do usuário autenticado ao carregar o componente
   useEffect( () => {
     const fetchData = async () => { // Função assíncrona para buscar dados
@@ -133,77 +108,58 @@ export default function Home() {
         flex flex-col items-center justify-center
         gap-8
         ">
-          <div className="
 
-          ">
-            <h1 className="
-            font-mono
-            ">
-              {formatTimer(seconds)}
-            </h1>
+          <Timer 
+          stopwatchStatus={stopwatchStatus} 
+          setStopwatchStatus={setStopwatchStatus} 
+          seconds={seconds}
+          setStart={setStart}
+          />
+
+          <div className="flex w-full max-w-sm items-center gap-2">
+              <Input
+              type="text"
+              placeholder="No que você está trabalhando?"
+              value={description} 
+              onChange={(event) => { 
+              setDescription(event.target.value)
+              }}
+              />
+
+              <Select
+              value={typeActivity} 
+              onValueChange={setTypeActivity}
+              >
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Categoria" />
+                </SelectTrigger>
+                <SelectContent>
+                  {categories.map((categorie) => (
+                      <SelectItem value={categorie.name} key={categorie.id}>{categorie.name}</SelectItem>
+                    )
+                  )}
+                </SelectContent>
+              </Select>
           </div>
 
-            <div className="flex w-full max-w-sm items-center gap-2">
-                <Input
-                type="text"
-                placeholder="No que você está trabalhando?"
-                value={description} 
-                onChange={(event) => { 
-                setDescription(event.target.value)
-                }}
-                />
+          <ButtonGroup>
 
-                <Select
-                value={typeActivity} 
-                onValueChange={setTypeActivity}
-                >
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Categoria" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {categories.map((categorie) => (
-                        <SelectItem value={categorie.name} key={categorie.id}>{categorie.name}</SelectItem>
-                      )
-                    )}
-                  </SelectContent>
-                </Select>
+              <Button id="btn-save"
+              onClick={handleSave}
+              disabled={ stopwatchStatus === 'stopped' ? true : false }
+              variant={"secondary"}
+              >
+                  Salvar
+              </Button>
 
-                
-                
-            </div>
-
-            <ButtonGroup>
-                <Button onClick={() => {
-                if (stopwatchStatus == 'stopped') {
-                    setStopwatchStatus('running')
-                    setStart(new Date())
-                } else if (stopwatchStatus == 'running') {
-                    setStopwatchStatus('paused')
-                } else if (stopwatchStatus == 'paused') {
-                    setStopwatchStatus('running')
-                }
-                }}
-                variant={"default"}
-                >
-                    {stopwatchStatus == 'stopped' ? 'Iniciar' : stopwatchStatus == 'running' ? 'Pausar' : 'Retomar'}
-                </Button>
-
-                <Button id="btn-save"
-                onClick={handleSave}
-                disabled={ stopwatchStatus === 'stopped' ? true : false }
-                variant={"secondary"}
-                >
-                    Salvar
-                </Button>
-
-                <Button  id="btn-cancel"
-                onClick={handleCancel}
-                disabled={ stopwatchStatus === 'stopped' ? true : false }
-                variant={"destructive"}
-                >
-                    Cancelar
-                </Button>
-            </ButtonGroup>
+              <Button  id="btn-cancel"
+              onClick={handleCancel}
+              disabled={ stopwatchStatus === 'stopped' ? true : false }
+              variant={"destructive"}
+              >
+                  Cancelar
+              </Button>
+          </ButtonGroup>
 
         </main>
 
