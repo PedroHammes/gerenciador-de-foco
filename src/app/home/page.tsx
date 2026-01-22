@@ -91,6 +91,19 @@ export default function Home() {
   }, [])
 
 
+  // Efeito para carregar a descrição e tipo de atividade do localStorage ao montar o componente
+  useEffect(() => {
+    setDescription(localStorage.getItem("description") || "")
+    setTypeActivity(localStorage.getItem("typeActivity") || "")
+  },[])
+
+  // Efeito para salvar a descrição e tipo de atividade no localStorage sempre que mudarem
+  useEffect(() => {
+    localStorage.setItem("description", description)
+    localStorage.setItem("typeActivity", typeActivity)
+  }, [description, typeActivity])
+
+
   if (status === "loading") {
     return <Loading />
   } else if (status === "unauthenticated") {
