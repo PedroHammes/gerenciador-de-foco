@@ -38,6 +38,7 @@ export default function LandingPage() {
         { text: "Personalização Paga", included: false },
       ],
       buttonText: "Pagar caro",
+      href: "#",
       highlight: false
     },
     {
@@ -52,6 +53,7 @@ export default function LandingPage() {
         { text: "Timer Personalizado", included: true },
       ],
       buttonText: "Começar Agora",
+      href: "/signup",
       highlight: true
     }
   ];
@@ -144,8 +146,11 @@ export default function LandingPage() {
                   className="w-full" 
                   variant={plan.highlight ? "default" : "ghost"}
                   disabled={!plan.highlight} // Desabilita o botão da concorrência
+                  asChild
                 >
-                  {plan.buttonText}
+                    <a href={plan.href}>
+                        {plan.buttonText}
+                    </a>
                 </Button>
               </CardFooter>
             </Card>
