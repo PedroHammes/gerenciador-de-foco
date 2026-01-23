@@ -20,6 +20,7 @@ import Loading from "@/components/loading";
 import { useTimer } from "@/hooks/useTimer";
 import Timer from "./timer";
 
+
 interface ICategory {
   id: string;
   name: string;
@@ -34,7 +35,7 @@ export default function Home() {
   const [categories, setCategories] = useState<ICategory[]>([])
 
   // Imports pós modularização do useTimer
-  const { stopwatchStatus, setStopwatchStatus, seconds, setSeconds, start, setStart } = useTimer()
+  const { stopwatchStatus, setStopwatchStatus, seconds, setSeconds, start, setStart, isCountDown, setIsCountDown, initialPreset, setInitialPreset } = useTimer()
 
   //Função para salvar uma sessão no BD
   const handleSave = async () => {
@@ -45,20 +46,18 @@ export default function Home() {
     }
 
     const response = await fetch('api/foco', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        description,
-        //typeActivity deve ser declarada aqui
-        typeActivity,
-        startTime: start,
-        endTime: new Date(),
-        duration: seconds,
-        // adicionar o ID do usuário
-        userId: session.user.id
-      })
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            description,
+            typeActivity,
+            startTime: start,
+            endTime: new Date(),
+            duration: isCountDown ? (initialPreset*60)-seconds : seconds, // Duração em segundos considerando o modo de contagem
+            userId: session.user.id
+        })
     })
 
     if (response.ok) { //Verifica se a REQUISIÇÃO foi bem sucedida
@@ -78,6 +77,14 @@ export default function Home() {
   const handleCancel = () => {
     setStopwatchStatus('stopped')
     setSeconds(0)
+  }
+
+  // Função para definir um preset de contagem regressiva de minutos
+  const handlePreset = (minutes: number) => {
+    setInitialPreset(minutes)
+    setSeconds(minutes*60)
+    setIsCountDown(true)
+    setStopwatchStatus("stopped")
   }
 
   // Buscar categorias do usuário autenticado ao carregar o componente
@@ -124,18 +131,22 @@ export default function Home() {
           <Timer 
           seconds={seconds}
           />
+          <div>
+            <ButtonGroup>
+                <Button onClick={() => {handlePreset(15)}}>
+                    15 min
+                </Button>
+                <Button onClick={() => {handlePreset(30)}}>
+                    30 min
+                </Button>
+                <Button onClick={() => {handlePreset(50)}}>
+                    50 min
+                </Button>
+            </ButtonGroup>
+          </div>
 
           <div className="flex w-full max-w-sm items-center gap-2">
-              <Input
-              type="text"
-              placeholder="No que você está trabalhando?"
-              value={description} 
-              onChange={(event) => { 
-              setDescription(event.target.value)
-              }}
-              />
-
-              <Select
+            <Select
               value={typeActivity} 
               onValueChange={setTypeActivity}
               >
@@ -148,7 +159,15 @@ export default function Home() {
                     )
                   )}
                 </SelectContent>
-              </Select>
+            </Select>
+              <Input
+              type="text"
+              placeholder="No que você está trabalhando?"
+              value={description} 
+              onChange={(event) => { 
+              setDescription(event.target.value)
+              }}
+              />
           </div>
 
           <ButtonGroup>

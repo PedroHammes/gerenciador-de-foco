@@ -6,6 +6,9 @@ export function useTimer() {
   const [seconds, setSeconds] = useState(0)
   const [start, setStart] = useState< Date | null >(null)
 
+  const [isCountDown, setIsCountDown] = useState(false)
+  const [initialPreset, setInitialPreset] = useState(0)
+
   // Efeito que controla o cronômetro com base no status e faz a contagem de segundos
   useEffect(() => {
     let intervalId: number | NodeJS.Timeout; // Definindo o tipo da variável
@@ -13,9 +16,21 @@ export function useTimer() {
     // Inicia a contagem se o status do cronômetro for 'running'
     if (stopwatchStatus == 'running') {
       // Começa a contar cada segundo
-      intervalId = setInterval(() => {
-        setSeconds(prevSeconds => prevSeconds + 1)
-      }, 1000)
+      if (!isCountDown) { // Modo contagem progressiva
+        intervalId = setInterval(() => {
+            setSeconds(prevSeconds => prevSeconds + 1)
+        }, 1000)
+      } else { // Modo contagem regressiva
+        intervalId = setInterval(() => {
+            setSeconds(prevSeconds => {
+                if (prevSeconds > 0) {
+                    return prevSeconds -1
+                } else {
+                    return 0
+                }
+            })
+        }, 1000)
+      }
     }
 
     // Função de limpeza: para o cronômetro de isRunning virar false
@@ -24,6 +39,13 @@ export function useTimer() {
     }
 
   }, [stopwatchStatus]) // Fim do useEffect
+
+    // Efeito para parar o cronômetro quando chegar a zero no modo contagem regressiva
+    useEffect(() => {
+        if (seconds === 0 && isCountDown) {
+            setStopwatchStatus("stopped")
+        }
+    }, [seconds, isCountDown])
 
   // Efeito usado para salvar o estado do elementos do cronômetro no localStorage, garantindo persistência das informações entre recarregamentos da página
   useEffect(() => {
@@ -41,5 +63,5 @@ export function useTimer() {
     localStorage.setItem("stopwatchStatus", stopwatchStatus) // Salva o status atual do cronômetro no localStorage
   },[seconds, stopwatchStatus, start])
 
-  return { stopwatchStatus, setStopwatchStatus, seconds, setSeconds, start, setStart }
+  return { stopwatchStatus, setStopwatchStatus, seconds, setSeconds, start, setStart, setIsCountDown, isCountDown, initialPreset, setInitialPreset }
 }
