@@ -21,13 +21,12 @@ export default function Navbar() {
   return (
     <nav className="w-full flex justify-between items-center py-3 px-6 border-b mb-4 bg-background">
       
-      // Logo e Título
       <Link href="/home" className="flex items-center gap-2 font-bold text-lg hover:opacity-80 transition-opacity">
         <Timer className="h-6 w-6 text-primary" />
         <span>TimeLy</span>
       </Link>
 
-      <Menubar> // Barra de Navegação
+      <Menubar>
         <MenubarMenu>
           <MenubarTrigger className="cursor-pointer">Navegação</MenubarTrigger>
           <MenubarContent>
