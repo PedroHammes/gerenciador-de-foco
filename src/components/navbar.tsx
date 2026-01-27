@@ -1,49 +1,64 @@
 "use client"
 
-import Link from "next/link";
-import { Button } from "./ui/button";
+import Link from "next/link"
 import { useSession, signOut } from "next-auth/react"
+import {
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarSeparator,
+  MenubarTrigger,
+} from "@/components/ui/menubar"
+import { Timer } from "lucide-react"
 
 export default function Navbar() {
+  const { data: session } = useSession()
 
-  const {data: session} = useSession()
+  // Se não estiver logado, não renderiza a Navbar
+  if (!session) return null
 
-  if (!session) {
-    return null
-  } else {
-    return (
-      <nav className="w-full flex flex-row justify-between items-center py-4 px-6 border-b mb-4 bg-background">
-        
-        {/* Grupo Esquerda: Navegação */}
-        <div className="flex flex-row gap-2">
-          <Button asChild variant="outline">
-            <Link href="/home">
-              Home
-            </Link>
-          </Button>
-          
-          <Button asChild variant="outline">
-            <Link href="/history">
-              Histórico
-            </Link>
-          </Button>
-        </div>
+  return (
+    <nav className="w-full flex justify-between items-center py-3 px-6 border-b mb-4 bg-background">
+      
+      // Logo e Título
+      <Link href="/home" className="flex items-center gap-2 font-bold text-lg hover:opacity-80 transition-opacity">
+        <Timer className="h-6 w-6 text-primary" />
+        <span>TimeLy</span>
+      </Link>
 
-        {/* Grupo Direita: Conta */}
-        <div className="flex flex-row gap-2">
-          <Button asChild variant="outline">
-            <Link href="/profile">
-              Perfil
-            </Link>
-          </Button>
+      <Menubar> // Barra de Navegação
+        <MenubarMenu>
+          <MenubarTrigger className="cursor-pointer">Navegação</MenubarTrigger>
+          <MenubarContent>
+            <MenubarItem asChild className="cursor-pointer">
+              <Link href="/home">Home</Link>
+            </MenubarItem>
+            <MenubarItem asChild className="cursor-pointer">
+              <Link href="/history">Histórico</Link>
+            </MenubarItem>
+          </MenubarContent>
+        </MenubarMenu>
 
-          <Button type="submit" variant="outline" onClick={() => signOut()}>
-            Sair
-          </Button>
-        </div>
+        {/* Menu Conta */}
+        <MenubarMenu>
+          <MenubarTrigger className="cursor-pointer">Minha Conta</MenubarTrigger>
+          <MenubarContent>
+            <MenubarItem asChild className="cursor-pointer">
+              <Link href="/profile">Perfil</Link>
+            </MenubarItem>
+            <MenubarSeparator />
+            <MenubarItem 
+              className="text-red-500 focus:text-red-500 cursor-pointer"
+              onClick={() => signOut()}
+            >
+              Sair
+            </MenubarItem>
+          </MenubarContent>
+        </MenubarMenu>
 
-      </nav>
-    );
-  }
+      </Menubar>
 
+    </nav>
+  )
 }
