@@ -12,9 +12,6 @@ const focusSessionSchema = z.object({
     typeActivity: z.string().min(1, "Selecione uma categoria."),
 })
 
-    
-
-
 export async function POST(request: Request) {
     // código para salvar um novo registro de foco no BD
     console.log('Recebi uma req POST')

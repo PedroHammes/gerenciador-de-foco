@@ -9,6 +9,7 @@ import type { FocusSession } from "../profile/page"
 import { toast } from "sonner"
 import Unauthenticated from "@/components/unauthenticated"
 import Loading from "@/components/loading"
+import { FocusChart } from "./focus-chart"
 
 
 export default function History() {
@@ -51,11 +52,12 @@ export default function History() {
             h-dvh flex flex-col items-center
             p-8
             ">
+                <FocusChart />
                 <main className="
                 flex flex-col justify-center grow
                 ">
                     <DataTable columns={columns} data={sessions}/>
-                </main>
+               </main>
             </section>
         )
     }
