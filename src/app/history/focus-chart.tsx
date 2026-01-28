@@ -28,9 +28,10 @@ export function FocusChart() {
       try {
         const response = await fetch("/api/dashboard")
         const jsonData = await response.json()
+        const dailyData = jsonData.daily
         
         // Conversão opcional: transformar segundos em minutos para ficar mais legível
-        const formattedData = jsonData.map((item: any) => ({
+        const formattedData = dailyData.map((item: any) => ({
           ...item,
           day: item.day.slice(0,-1), // Remove o "Z" do final da string ISO
           totalDuration: Math.ceil(item.totalDuration / 60) // De segundos para minutos

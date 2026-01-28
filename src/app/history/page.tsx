@@ -10,6 +10,7 @@ import { toast } from "sonner"
 import Unauthenticated from "@/components/unauthenticated"
 import Loading from "@/components/loading"
 import { FocusChart } from "./focus-chart"
+import { CategoryRadar } from "./category-radar"
 
 
 export default function History() {
@@ -50,11 +51,21 @@ export default function History() {
         return (
             <section className="
             h-dvh flex flex-col items-center
-            p-8
+            p-8 gap-6
             ">
-                <FocusChart />
+                <div className="
+                flex flex-row
+                w-full gap-4
+                ">
+                    <div className="flex-1 min-w-0">
+                        <FocusChart />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                        <CategoryRadar />
+                    </div>
+                </div>
                 <main className="
-                flex flex-col justify-center grow
+                flex flex-col justify-center grow w-full
                 ">
                     <DataTable columns={columns} data={sessions}/>
                </main>
