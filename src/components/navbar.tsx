@@ -11,6 +11,7 @@ import {
   MenubarTrigger,
 } from "@/components/ui/menubar"
 import { Timer } from "lucide-react"
+import { FeedbackDialog } from "./feedback-dialog"
 
 export default function Navbar() {
   const { data: session } = useSession()
@@ -21,42 +22,47 @@ export default function Navbar() {
   return (
     <nav className="w-full flex justify-between items-center py-3 px-6 border-b mb-4 bg-background">
       
-      <Link href="/home" className="flex items-center gap-2 font-bold text-lg hover:opacity-80 transition-opacity">
+        <Link href="/home" className="flex items-center gap-2 font-bold text-lg hover:opacity-80 transition-opacity">
         <Timer className="h-6 w-6 text-primary" />
         <span>TimeLy</span>
-      </Link>
+        </Link>
 
-      <Menubar>
-        <MenubarMenu>
-          <MenubarTrigger className="cursor-pointer">Navegação</MenubarTrigger>
-          <MenubarContent>
-            <MenubarItem asChild className="cursor-pointer">
-              <Link href="/home">Home</Link>
-            </MenubarItem>
-            <MenubarItem asChild className="cursor-pointer">
-              <Link href="/history">Histórico</Link>
-            </MenubarItem>
-          </MenubarContent>
-        </MenubarMenu>
+        <div className="
+        flex flex-row items-center gap-4    
+        ">
+            <FeedbackDialog />
+            <Menubar>
+                <MenubarMenu>
+                <MenubarTrigger className="cursor-pointer">Navegação</MenubarTrigger>
+                <MenubarContent>
+                    <MenubarItem asChild className="cursor-pointer">
+                    <Link href="/home">Home</Link>
+                    </MenubarItem>
+                    <MenubarItem asChild className="cursor-pointer">
+                    <Link href="/history">Histórico</Link>
+                    </MenubarItem>
+                </MenubarContent>
+                </MenubarMenu>
 
-        {/* Menu Conta */}
-        <MenubarMenu>
-          <MenubarTrigger className="cursor-pointer">Minha Conta</MenubarTrigger>
-          <MenubarContent>
-            <MenubarItem asChild className="cursor-pointer">
-              <Link href="/profile">Perfil</Link>
-            </MenubarItem>
-            <MenubarSeparator />
-            <MenubarItem 
-              className="text-red-500 focus:text-red-500 cursor-pointer"
-              onClick={() => signOut()}
-            >
-              Sair
-            </MenubarItem>
-          </MenubarContent>
-        </MenubarMenu>
+                {/* Menu Conta */}
+                <MenubarMenu>
+                <MenubarTrigger className="cursor-pointer">Minha Conta</MenubarTrigger>
+                <MenubarContent>
+                    <MenubarItem asChild className="cursor-pointer">
+                    <Link href="/profile">Perfil</Link>
+                    </MenubarItem>
+                    <MenubarSeparator />
+                    <MenubarItem 
+                    className="text-red-500 focus:text-red-500 cursor-pointer"
+                    onClick={() => signOut()}
+                    >
+                    Sair
+                    </MenubarItem>
+                </MenubarContent>
+                </MenubarMenu>
 
-      </Menubar>
+            </Menubar>
+        </div>
 
     </nav>
   )

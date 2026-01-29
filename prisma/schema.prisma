@@ -27,6 +27,10 @@ model User {
   birthDate     DateTime?
   categories    Category[] //Relação (1-M): 1 usuário pode ter muitas categorias
   focusSession  FocusSession[]  //Relação (1-M): 1 usuário pode ter muitas sessões de foco
+  role          Role            @default(USER)          
+
+  // Relação (1-M): 1 usuário pode ter muitos feedbacks
+  feedbacks     Feedback[]
 }
 
 model Category {
@@ -57,4 +61,24 @@ model FocusSession {
   // Informações do usuário a quem pertence a sessão de foco
   userId      String      // Como se fosse uma 'label' para o id do usuário
   user        User     @relation(fields: [userId], references: [id]) // Conexão com a tabela User
+}
+
+// Modelo para armazenar registros de feedback dos usuários
+model Feedback {
+    id          String   @id @default(cuid()) // Identificador único automático
+    message     String   // Mensagem de feedback fornecida pelo usuário
+    url         String?  // URL opcional que indica em qual página ele estava quando enviou o feedback
+    userAgent  String?   // Isso me diz o navegador e o sistema operacional do usuário
+    createdAt   DateTime @default(now()) // Data em que o feedback foi criado
+
+    userId      String   // ID do usuário que forneceu o feedback
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade) // Conexão com a tabela User
+}
+
+enum Role {
+  USER
+  ADMIN
+  SUPER
+  MOD
+  GUEST
 }

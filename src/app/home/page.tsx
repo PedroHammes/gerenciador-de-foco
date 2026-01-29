@@ -150,7 +150,7 @@ export default function Home() {
               value={typeActivity} 
               onValueChange={setTypeActivity}
               >
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="w-45">
                   <SelectValue placeholder="Categoria" />
                 </SelectTrigger>
                 <SelectContent>
