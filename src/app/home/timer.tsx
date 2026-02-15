@@ -1,3 +1,4 @@
+// Componente de Timer para exibir o tempo decorrido em formato hh:mm:ss
 interface ITimerProps {
   seconds: number;
 }
